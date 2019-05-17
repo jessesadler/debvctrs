@@ -1,0 +1,19 @@
+Package: debvctrs
+Title: Analysis of Non-Decimal Currencies and Double-Entry Bookkeeping
+Version: 0.0.0.9000
+Authors@R: person("Jesse", "Sadler",
+    email = "jsadler@ucla.edu",
+    role = c("aut", "cre"),
+    comment = c(ORCID = "0000-0001-6081-9681"))
+Description: `debkeepr` provides an interface for analyzing non-decimal
+    currencies that use the tripartite system of pounds, shillings, and pence
+    through the implementation of the `lsd` class. `debkeepr` includes
+    functions to apply arithmetic and financial operations to single or
+    multiple values and to analyze account books that use either
+    single-entry bookkeeping or double-entry bookkeeping with the latter
+    providing the name for `debkeepr`.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 6.1.1
