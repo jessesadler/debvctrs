@@ -4,7 +4,7 @@
 \name{debvctrs-package}
 \alias{debvctrs}
 \alias{debvctrs-package}
-\title{debvctrs: What the Package Does (One Line, Title Case)}
+\title{debvctrs: Analysis of Non-Decimal Currencies and Double-Entry Bookkeeping}
 \description{
 `debkeepr` provides an interface for analyzing non-decimal
     currencies that use the tripartite system of pounds, shillings, and pence
