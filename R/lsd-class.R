@@ -5,7 +5,7 @@
 new_lsd <- function(l = double(),
                     s = double(),
                     d = double(),
-                    bases = integer()) {
+                    bases = c(20L, 12L)) {
 
   vctrs::vec_assert(l, ptype = double())
   vctrs::vec_assert(s, ptype = double())
@@ -52,22 +52,21 @@ deb_is_lsd <- function(x) {
 format.deb_lsd <- function(x, ...) {
   l <- vctrs::field(x, "l")
   s <- vctrs::field(x, "s")
-  d <- vctrs::field(x, "d")
+  d <- round(vctrs::field(x, "d"), 2) # only print 2 decimals
 
-  out <- paste0(l, ":", s, "s:", d, "d")
+  out <- paste0("£", l, ":", s, "s:", d, "d")
   out[is.na(l) | is.na(s) | is.na(d)] <- NA
-
   out
 }
 
 obj_print_footer.deb_lsd <- function(x, ...) {
-  s <- format(attr(x, "bases")[1])
-  d <- format(attr(x, "bases")[2])
+  s <- format(attr(x, "bases")[[1]])
+  d <- format(attr(x, "bases")[[2]])
   cat("# Bases: ", s, "s ", d, "d", "\n", sep = "")
 }
 
 
 # Abbreviated name type ---------------------------------------------------
 vec_ptype_abbr.deb_lsd <- function(x) {
-  paste0("lsd[", deb_bases(x)[1], "s:", deb_bases(x)[2], "d]")
+  paste0("lsd[", attr(x, "bases")[[1]], "s:", attr(x, "bases")[[2]], "d]")
 }
