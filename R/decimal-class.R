@@ -8,7 +8,7 @@ new_decimal <- function(x = double(),
   unit <- rlang::arg_match(unit)
 
   vctrs::vec_assert(x, ptype = double())
-  vctrs::vec_assert(bases, ptype = integer(), size = 2)
+  bases <- bases_assert(bases)
 
   vctrs::new_vctr(x,
                   unit = unit,
@@ -33,7 +33,10 @@ deb_decimal <- function(x,
 
 
 # Attribute access --------------------------------------------------------
-deb_unit <- function(x) {
+deb_unit <- function(x) attr(x, "unit")
+
+# To pringt full name of unit
+unit_word <- function(x) {
   if (attr(x, "unit") == "l") {
     unit <- "libra"
   } else if (attr(x, "unit") == "s") {
@@ -46,9 +49,7 @@ deb_unit <- function(x) {
 
 
 # Class check -------------------------------------------------------------
-deb_is_decimal <- function(x) {
-  inherits(x, "deb_decimal")
-}
+deb_is_decimal <- function(x) inherits(x, "deb_decimal")
 
 
 # Format method -----------------------------------------------------------
@@ -56,8 +57,8 @@ deb_is_decimal <- function(x) {
 
 # Add footer with attribute data
 obj_print_footer.deb_decimal <- function(x, ...) {
-  # Use full name of units
-  unit <- deb_unit(x)
+  # Use full name of unit
+  unit <- unit_word(x)
 
   s <- format(attr(x, "bases")[[1]])
   d <- format(attr(x, "bases")[[2]])

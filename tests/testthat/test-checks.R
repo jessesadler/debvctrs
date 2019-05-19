@@ -12,6 +12,12 @@ test_that("non-numeric is an error", {
                "`d` must be a numeric vector")
 })
 
+test_that("NA scalar is not an error", {
+  expect_invisible(lsd_check(NA, 3, 4))
+  expect_invisible(lsd_check(3, NA, 4))
+  expect_invisible(lsd_check(3, 4, NA))
+})
+
 test_that("length of l, s, and d are same length, length 1, or length 0", {
   # Successful
   expect_invisible(lsd_check(l = 3, s = 4, d = 1))

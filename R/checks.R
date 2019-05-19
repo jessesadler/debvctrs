@@ -5,14 +5,22 @@
 
 lsd_check <- function(l, s, d) {
   # Check that l, s, and d are numeric
-  if (!is.numeric(l)) {
-    stop(call. = FALSE, "`l` must be a numeric vector")
+  if (!rlang::is_na(l)) {
+    if (!is.numeric(l)) {
+      stop(call. = FALSE, "`l` must be a numeric vector")
+    }
   }
-  if (!is.numeric(s)) {
-    stop(call. = FALSE, "`s` must be a numeric vector")
+
+  if (!rlang::is_na(s)) {
+    if (!is.numeric(s)) {
+      stop(call. = FALSE, "`s` must be a numeric vector")
+    }
   }
-  if (!is.numeric(d)) {
-    stop(call. = FALSE, "`d` must be a numeric vector")
+
+  if (!rlang::is_na(d)) {
+    if (!is.numeric(d)) {
+      stop(call. = FALSE, "`d` must be a numeric vector")
+    }
   }
 
   # Check that l, s, and d are same length, length 1, or length 0
@@ -38,5 +46,32 @@ bases_check <- function(bases) {
   }
   if (!all(is_natural(bases))) {
     stop(call. = FALSE, "`bases` must be natural numbers greater than zero.")
+  }
+}
+
+
+# Bases assert ------------------------------------------------------------
+
+bases_assert <- function(bases) {
+  bases <- rlang::set_names(bases, NULL) # vec_assert has error if named
+  vctrs::vec_assert(bases, ptype = integer(), size = 2)
+  rlang::set_names(bases, c("s", "d"))
+}
+
+# Bases equivalent --------------------------------------------------------
+
+# Check that bases are equal for two lsd objects
+bases_equal <- function(x, y) {
+  if (!identical(deb_bases(x), deb_bases(y))) {
+    stop(call. = FALSE, "`bases` attributes must be equal to combine <deb_lsd> or <deb_decimal> objects.")
+  }
+}
+
+
+# Units equivalent --------------------------------------------------------
+
+unit_equal <- function(x, y) {
+  if (!identical(attr(x, "unit"), attr(y, "unit"))) {
+    stop(call. = FALSE, "`unit` attributes must be equal to combine <deb_decimal> objects.")
   }
 }

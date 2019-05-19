@@ -10,7 +10,8 @@ new_lsd <- function(l = double(),
   vctrs::vec_assert(l, ptype = double())
   vctrs::vec_assert(s, ptype = double())
   vctrs::vec_assert(d, ptype = double())
-  vctrs::vec_assert(bases, ptype = integer(), size = 2)
+
+  bases <- bases_assert(bases)
 
   vctrs::new_rcrd(list(l = l, s = s, d = d),
                   bases = bases,
@@ -35,17 +36,11 @@ deb_lsd <- function(l, s, d, bases = c(20, 12)) {
 
 
 # Attribute access --------------------------------------------------------
-deb_bases <- function(x) {
-  bases <- attr(x, "bases")
-  names(bases) <- c("s", "d")
-  bases
-}
+deb_bases <- function(x) attr(x, "bases")
 
 
 # Class check -------------------------------------------------------------
-deb_is_lsd <- function(x) {
-  inherits(x, "deb_lsd")
-}
+deb_is_lsd <- function(x) inherits(x, "deb_lsd")
 
 
 # Format method -----------------------------------------------------------
