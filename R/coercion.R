@@ -14,6 +14,10 @@ vec_type2.deb_lsd.deb_lsd <- function(x, y) {
   new_lsd(bases = deb_bases(x))
 }
 
+# deb_lsd and double
+vec_type2.deb_lsd.double <- function(x, y) x
+vec_type2.double.deb_lsd <- function(x, y) y
+
 # deb_decimal -------------------------------------------------------------
 
 # Boilerplate
