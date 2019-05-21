@@ -49,7 +49,7 @@ format.deb_lsd <- function(x, ...) {
   s <- vctrs::field(x, "s")
   d <- round(vctrs::field(x, "d"), 2) # only print 2 decimals
 
-  out <- paste0("£", l, ":", s, "s:", d, "d")
+  out <- paste0(l, ":", s, "s:", d, "d")
   out[is.na(l) | is.na(s) | is.na(d)] <- NA
   out
 }

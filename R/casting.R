@@ -1,6 +1,5 @@
 ## Casting for deb_lsd and deb_decimal ##
 
-
 # deb_lsd -----------------------------------------------------------------
 
 # Boilerplate
