@@ -45,9 +45,9 @@ deb_is_lsd <- function(x) inherits(x, "deb_lsd")
 
 # Format method -----------------------------------------------------------
 format.deb_lsd <- function(x, ...) {
-  l <- vctrs::field(x, "l")
-  s <- vctrs::field(x, "s")
-  d <- round(vctrs::field(x, "d"), 3) # only print 3 decimals
+  l <- round(vctrs::field(x, "l"), 3) # only print 3 decimals
+  s <- round(vctrs::field(x, "s"), 3)
+  d <- round(vctrs::field(x, "d"), 3)
 
   out <- paste0(l, ":", s, "s:", d, "d")
   out[is.na(l) | is.na(s) | is.na(d)] <- NA

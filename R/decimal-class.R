@@ -68,6 +68,7 @@ obj_print_footer.deb_decimal <- function(x, ...) {
 
 # Abbreviated name type ---------------------------------------------------
 vec_ptype_abbr.deb_decimal <- function(x) {
-  paste0("dec_", attr(x, "unit"), "[",
-         attr(x, "bases")[[1]], "s:", attr(x, "bases")[[2]], "d]")
+  paste0(attr(x, "unit"), "[",
+         attr(x, "bases")[[1]], "s:",
+         attr(x, "bases")[[2]], "d]")
 }
