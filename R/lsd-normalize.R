@@ -44,9 +44,25 @@ lsd_normalize_neg <- function(lsd) {
   -lsd
 }
 
-deb_normalize <- function(x) {
+
+# deb_normalize methods ---------------------------------------------------
+
+deb_normalize <- function(x, ...) {
+  UseMethod("deb_normalize")
+}
+
+deb_normalize.deb_lsd <- function(x) {
   decimals <- decimal_check(x)
   dplyr::if_else(is_negative(x),
                  lsd_normalize_neg(decimals),
                  lsd_normalize(decimals))
+}
+
+deb_normalize.numeric <- function(x, bases = c(20, 12)) {
+  if (vctrs::vec_size(x) != 3L) {
+    stop(call. = FALSE, "`x` must be a numeric vector of length 3.")
+  }
+
+  lsd <- deb_lsd(x[[1]], x[[2]], x[[3]], bases)
+  deb_normalize(lsd)
 }
