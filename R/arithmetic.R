@@ -2,7 +2,7 @@
 
 # deb_lsd mathematic functions --------------------------------------------
 
-# sum #
+# sum
 lsd_sum <- function(x, ...) {
   ret <- new_lsd(sum(vctrs::field(x, "l")),
                  sum(vctrs::field(x, "s")),
@@ -12,11 +12,42 @@ lsd_sum <- function(x, ...) {
   deb_normalize(ret)
 }
 
-# deb_lsd and deb_lsd
+
+# Rounding ----------------------------------------------------------------
+round.deb_lsd <- function(x, digits = 0) {
+  vctrs::field(x, "d") <- round(vctrs::field(x, "d"), digits = digits)
+  deb_normalize(x)
+}
+
+signif.deb_lsd <- function(x, digits = 6) {
+  vctrs::field(x, "d") <- signif(vctrs::field(x, "d"), digits = digits)
+  deb_normalize(x)
+}
+
+lsd_ceiling <- function(x) {
+  vctrs::field(x, "d") <- ceiling(vctrs::field(x, "d"))
+  deb_normalize(x)
+}
+
+lsd_floor <- function(x) {
+  vctrs::field(x, "d") <- floor(vctrs::field(x, "d"))
+  deb_normalize(x)
+}
+
+lsd_trunc <- function(x, ...) {
+  vctrs::field(x, "d") <- trunc(vctrs::field(x, "d"))
+  deb_normalize(x)
+}
+
+# Methods
 vec_math.deb_lsd <- function(fun, x, ...) {
   switch(
     fun,
     sum = lsd_sum(x, ...),
+    mean = lsd_sum(x) / vctrs::vec_size(x),
+    ceiling = lsd_ceiling(x),
+    floor = lsd_floor(x),
+    trunc = lsd_trunc(x, ...),
     vctrs::vec_math_base(fun, x, ...)
   )
 }
