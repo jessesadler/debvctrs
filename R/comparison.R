@@ -1,6 +1,5 @@
 ## Equality and comparison for
 
-
 # deb_lsd equality --------------------------------------------------------
 
 # vec_proxy_equal is just vec_proxy in GitHub version

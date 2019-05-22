@@ -1,6 +1,5 @@
 ## Tests for checks.R ##
 
-
 # lsd_check ---------------------------------------------------------------
 
 test_that("non-numeric is an error", {

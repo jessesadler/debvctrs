@@ -1,6 +1,5 @@
 ## Checks ##
 
-
 # lsd and bases checks ----------------------------------------------------
 
 lsd_check <- function(l, s, d) {
