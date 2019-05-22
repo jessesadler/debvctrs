@@ -31,7 +31,10 @@ vec_arith.deb_lsd.default <- function(op, x, y) {
   vctrs::stop_incompatible_op(op, x, y)
 }
 
+# Operators with lsd and lsd
 lsd_plus <- function(x, y) {
+  c(x, y) %<-% vctrs::vec_recycle_common(x, y)
+
   ret <- new_lsd(vctrs::field(x, "l") + vctrs::field(y, "l"),
                  vctrs::field(x, "s") + vctrs::field(y, "s"),
                  vctrs::field(x, "d") + vctrs::field(y, "d"),
@@ -41,6 +44,8 @@ lsd_plus <- function(x, y) {
 }
 
 lsd_minus <- function(x, y) {
+  c(x, y) %<-% vctrs::vec_recycle_common(x, y)
+
   ret <- new_lsd(vctrs::field(x, "l") - vctrs::field(y, "l"),
                  vctrs::field(x, "s") - vctrs::field(y, "s"),
                  vctrs::field(x, "d") - vctrs::field(y, "d"),
@@ -57,24 +62,32 @@ vec_arith.deb_lsd.deb_lsd <- function(op, x, y) {
     op,
     "+" = lsd_plus(x, y),
     "-" = lsd_minus(x, y),
+    "/" = as.double(x) / as.double(y),
     vctrs::stop_incompatible_op(op, x, y)
   )
 }
 
-lsd_multiply <- function(lsd, multiplier) {
-  vctrs::field(lsd, "l") <- vctrs::field(lsd, "l") * multiplier
-  vctrs::field(lsd, "s") <- vctrs::field(lsd, "s") * multiplier
-  vctrs::field(lsd, "d") <- vctrs::field(lsd, "d") * multiplier
+# Operators with numeric
+lsd_multiply <- function(x, multiplier) {
+  c(x, multiplier) %<-% vctrs::vec_recycle_common(x, multiplier)
 
-  deb_normalize(lsd)
+  ret <- new_lsd(vctrs::field(x, "l") * multiplier,
+                 vctrs::field(x, "s") * multiplier,
+                 vctrs::field(x, "d") * multiplier,
+                 bases = deb_bases(x))
+
+  deb_normalize(ret)
 }
 
-lsd_divide <- function(lsd, divisor) {
-  vctrs::field(lsd, "l") <- vctrs::field(lsd, "l") * divisor
-  vctrs::field(lsd, "s") <- vctrs::field(lsd, "s") * divisor
-  vctrs::field(lsd, "d") <- vctrs::field(lsd, "d") * divisor
+lsd_divide <- function(x, divisor) {
+  c(x, divisor) %<-% vctrs::vec_recycle_common(x, divisor)
 
-  deb_normalize(lsd)
+  ret <- new_lsd(vctrs::field(x, "l") / divisor,
+                 vctrs::field(x, "s") / divisor,
+                 vctrs::field(x, "d") / divisor,
+                 bases = deb_bases(x))
+
+  deb_normalize(ret)
 }
 
 
@@ -82,8 +95,8 @@ lsd_divide <- function(lsd, divisor) {
 vec_arith.deb_lsd.numeric <- function(op, x, y) {
   switch(
     op,
-    "*" = lsd_multiply(lsd = x, multiplier = y),
-    "/" = lsd_divide(lsd = x, divisor = y),
+    "*" = lsd_multiply(x, multiplier = y),
+    "/" = lsd_divide(x, divisor = y),
     vctrs::stop_incompatible_op(op, x, y)
   )
 }
@@ -92,18 +105,18 @@ vec_arith.deb_lsd.numeric <- function(op, x, y) {
 vec_arith.numeric.deb_lsd <- function(op, x, y) {
   switch(
     op,
-    "*" = lsd_multiply(lsd = y, multiplier = x),
+    "*" = lsd_multiply(y, multiplier = x),
     vctrs::stop_incompatible_op(op, x, y)
   )
 }
 
 # Unary operators
-lsd_negate <- function(lsd) {
-  vctrs::field(lsd, "l") <- vctrs::field(lsd, "l") * -1
-  vctrs::field(lsd, "s") <- vctrs::field(lsd, "s") * -1
-  vctrs::field(lsd, "d") <- vctrs::field(lsd, "d") * -1
+lsd_negate <- function(x) {
+  vctrs::field(x, "l") <- vctrs::field(x, "l") * -1
+  vctrs::field(x, "s") <- vctrs::field(x, "s") * -1
+  vctrs::field(x, "d") <- vctrs::field(x, "d") * -1
 
-  lsd
+  x
 }
 
 vec_arith.deb_lsd.MISSING <- function(op, x, y) {
@@ -137,6 +150,7 @@ vec_arith.deb_decimal.deb_decimal <- function(op, x, y) {
     "-" = new_decimal(vctrs::vec_arith_base(op, x, y),
                       unit = deb_unit(x),
                       bases = deb_bases(x)),
+    "/" = vctrs::vec_arith_base(op, x, y),
     vctrs::stop_incompatible_op(op, x, y)
   )
 }
@@ -178,6 +192,31 @@ vec_arith.deb_decimal.MISSING <- function(op, x, y) {
     op,
     `-` = x * -1,
     `+` = x,
+    vctrs::stop_incompatible_op(op, x, y)
+  )
+}
+
+
+# deb_lsd and deb_decimal arithmetic --------------------------------------
+
+# deb_lsd and deb_decimal
+vec_arith.deb_lsd.deb_decimal <- function(op, x, y) {
+  switch(
+    op,
+    "+" = lsd_plus(x, deb_as_lsd(y)),
+    "-" = lsd_minus(x, deb_as_lsd(y)),
+    "/" = as.double(x) / vctrs::vec_data(y),
+    vctrs::stop_incompatible_op(op, x, y)
+  )
+}
+
+# deb_decimal and deb_lsd
+vec_arith.deb_decimal.deb_lsd <- function(op, x, y) {
+  switch(
+    op,
+    "+" = lsd_plus(deb_as_lsd(x), y),
+    "-" = lsd_minus(deb_as_lsd(x), y),
+    "/" = vctrs::vec_data(x) / as.double(y),
     vctrs::stop_incompatible_op(op, x, y)
   )
 }
