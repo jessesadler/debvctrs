@@ -1,4 +1,4 @@
-## Tests for checks.R ##
+## Test checks ##
 
 # lsd_check ---------------------------------------------------------------
 
@@ -66,4 +66,30 @@ test_that("bases are natural numbers", {
                "`bases` must be natural numbers greater than zero.")
   expect_error(bases_check(c(20.5, 8.23)),
                "`bases` must be natural numbers greater than zero.")
+})
+
+
+# Equivalency -------------------------------------------------------------
+
+test_that("bases assert allows named vector", {
+  expect_equal(bases_assert(c(s = 20L, d = 12L)),
+               c(s = 20L, d = 12L))
+})
+
+test_that("bases tests equivalency", {
+  expect_invisible(bases_equal(deb_lsd(2, 3, 4), deb_lsd(3, 2, 1)))
+  expect_invisible(bases_equal(deb_lsd(2, 3, 4, bases = c(60, 12)),
+                               deb_lsd(3, 2, 1, bases = c(60, 12))))
+  expect_invisible(bases_equal(deb_decimal(1.25), deb_decimal(1.25)))
+  expect_error(bases_equal(deb_lsd(2, 3, 4), deb_lsd(3, 2, 1, bases = c(60, 12))),
+               "`bases` attributes must be equal to combine <deb_lsd> or <deb_decimal> objects.")
+  expect_error(bases_equal(deb_decimal(1.25), deb_decimal(1.25, bases = c(60, 12))),
+               "`bases` attributes must be equal to combine <deb_lsd> or <deb_decimal> objects.")
+})
+
+test_that("unit tests equivalency", {
+  expect_invisible(unit_equal(deb_decimal(1.25), deb_decimal(1.25)))
+  expect_invisible(unit_equal(deb_decimal(1.25, "s"), deb_decimal(1.25, "s")))
+  expect_error(unit_equal(deb_decimal(1.25), deb_decimal(1.25, "s")),
+               "`unit` attributes must be equal to combine <deb_decimal> objects.")
 })
