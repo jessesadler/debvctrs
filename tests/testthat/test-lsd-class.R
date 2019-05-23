@@ -3,13 +3,15 @@
 x <- deb_lsd(c(1, 2, 3), c(4, 5, 6), c(7, 8, 9))
 
 test_that("new_lsd works", {
-  expect_equal(class(new_lsd()),
-               c("deb_lsd", "vctrs_rcrd", "vctrs_vctr"))
   expect_equal(length(new_lsd()), 0)
+  expect_equal(class(new_lsd()), c("deb_lsd", "vctrs_rcrd", "vctrs_vctr"))
   expect_equal(length(new_lsd(c(1, 2, 3), c(4, 5, 6), c(7, 8, 9))), 3)
 })
 
 test_that("deb_lsd works", {
+  # Prototype
+  expect_equal(length(deb_lsd()), 0)
+  expect_equal(class(deb_lsd()), c("deb_lsd", "vctrs_rcrd", "vctrs_vctr"))
   # Basics
   expect_equal(class(deb_lsd(1, 2, 3)),
                c("deb_lsd", "vctrs_rcrd", "vctrs_vctr"))

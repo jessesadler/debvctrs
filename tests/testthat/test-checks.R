@@ -17,6 +17,14 @@ test_that("NA scalar is not an error", {
   expect_invisible(lsd_check(3, 4, NA))
 })
 
+test_that("length of l, s, and d all have values or are all length 0", {
+  expect_invisible(lsd_check(double(), double(), double()))
+  expect_error(lsd_check(2, double(), double()),
+               "`l`, `s`, and `d` must all have values. You may have forgotten a value or need to use 0.")
+  expect_error(lsd_check(2, 3, double()),
+               "`l`, `s`, and `d` must all have values. You may have forgotten a value or need to use 0.")
+})
+
 test_that("length of l, s, and d are same length, length 1, or length 0", {
   # Successful
   expect_invisible(lsd_check(l = 3, s = 4, d = 1))
@@ -26,9 +34,6 @@ test_that("length of l, s, and d are same length, length 1, or length 0", {
   expect_invisible(lsd_check(l = c(3, 5, 3),
                              s = c(4, 9, 5),
                              d = 0))
-  expect_invisible(lsd_check(l = c(3, 5, 3),
-                             s = c(4, 9, 5),
-                             d = double()))
 
   # Errors
   expect_error(lsd_check(l = c(3, 5, 3),

@@ -19,7 +19,7 @@ new_decimal <- function(x = double(),
 
 # Helper ------------------------------------------------------------------
 
-deb_decimal <- function(x,
+deb_decimal <- function(x = double(),
                         unit = c("l", "s", "d"),
                         bases = c(20, 12)) {
   unit <- rlang::arg_match(unit)

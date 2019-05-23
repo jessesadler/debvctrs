@@ -21,7 +21,10 @@ new_lsd <- function(l = double(),
 
 # Helper ------------------------------------------------------------------
 
-deb_lsd <- function(l, s, d, bases = c(20, 12)) {
+deb_lsd <- function(l = double(),
+                    s = double(),
+                    d = double(),
+                    bases = c(20, 12)) {
   # checks
   lsd_check(l, s, d)
   bases_check(bases)

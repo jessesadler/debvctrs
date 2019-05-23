@@ -22,10 +22,16 @@ lsd_check <- function(l, s, d) {
     }
   }
 
-  # Check that l, s, and d are same length, length 1, or length 0
-  # Including length zero to correspond with what vctrs does
+  # Check that l, s, and d are same length, length 1, or all length 0
   lengths <- purrr::map_int(list(l, s, d), length)
-  non_scalar <- lengths[lengths != 1 & lengths != 0]
+
+  # Must be either all zero length or no zero length
+  if (sum(lengths) == 1L | sum(lengths) == 2L) {
+    stop(call. = FALSE, "`l`, `s`, and `d` must all have values. You may have forgotten a value or need to use 0.")
+  }
+
+  # Must be only one length other than scalar
+  non_scalar <- lengths[lengths != 1L]
   if (length(unique(non_scalar)) > 1L) {
     stop(call. = FALSE, "`l`, `s`, and `d` must be vectors of equal length or length 1")
   }
