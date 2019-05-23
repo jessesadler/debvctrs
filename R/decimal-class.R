@@ -35,7 +35,7 @@ deb_decimal <- function(x,
 # Attribute access --------------------------------------------------------
 deb_unit <- function(x) attr(x, "unit")
 
-# To pringt full name of unit
+# To print full name of unit
 unit_word <- function(x) {
   if (attr(x, "unit") == "l") {
     unit <- "libra"
