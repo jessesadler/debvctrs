@@ -17,6 +17,10 @@ vec_type2.deb_lsd.deb_lsd <- function(x, y) {
 vec_type2.deb_lsd.double <- function(x, y) x
 vec_type2.double.deb_lsd <- function(x, y) y
 
+# deb_lsd and integer
+vec_type2.deb_lsd.integer <- function(x, y) x
+vec_type2.integer.deb_lsd <- function(x, y) y
+
 # deb_decimal -------------------------------------------------------------
 
 # Boilerplate
@@ -35,6 +39,9 @@ vec_type2.deb_decimal.deb_decimal <- function(x, y) {
 vec_type2.deb_decimal.double <- function(x, y) x
 vec_type2.double.deb_decimal <- function(x, y) y
 
+# deb_decimal and integer
+vec_type2.deb_decimal.integer <- function(x, y) x
+vec_type2.integer.deb_decimal <- function(x, y) y
 
 # deb_lsd and deb_decimal -------------------------------------------------
 
