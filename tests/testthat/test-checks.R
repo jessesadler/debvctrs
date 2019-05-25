@@ -86,9 +86,14 @@ test_that("bases tests equivalency", {
   expect_invisible(bases_equal(deb_lsd(2, 3, 4, bases = c(60, 12)),
                                deb_lsd(3, 2, 1, bases = c(60, 12))))
   expect_invisible(bases_equal(deb_decimal(1.25), deb_decimal(1.25)))
+  # Errors
   expect_error(bases_equal(deb_lsd(2, 3, 4), deb_lsd(3, 2, 1, bases = c(60, 12))),
                "`bases` attributes must be equal to combine <deb_lsd> or <deb_decimal> objects.")
+  expect_error(bases_equal(deb_lsd(2, 3, 4), deb_lsd(3, 2, 1, bases = c(20, 16))),
+               "`bases` attributes must be equal to combine <deb_lsd> or <deb_decimal> objects.")
   expect_error(bases_equal(deb_decimal(1.25), deb_decimal(1.25, bases = c(60, 12))),
+               "`bases` attributes must be equal to combine <deb_lsd> or <deb_decimal> objects.")
+  expect_error(bases_equal(deb_decimal(1.25), deb_decimal(1.25, bases = c(20, 16))),
                "`bases` attributes must be equal to combine <deb_lsd> or <deb_decimal> objects.")
 })
 
