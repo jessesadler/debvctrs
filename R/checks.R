@@ -27,7 +27,8 @@ lsd_check <- function(l, s, d) {
 
   # Must be either all zero length or no zero length
   if (sum(lengths) == 1L | sum(lengths) == 2L) {
-    stop(call. = FALSE, "`l`, `s`, and `d` must all have values. You may have forgotten a value or need to use 0.")
+    stop(call. = FALSE,
+         "`l`, `s`, and `d` must all have values. You may have forgotten a value or need to use 0.")
   }
 
   # Must be only one length other than scalar
@@ -68,7 +69,8 @@ bases_assert <- function(bases) {
 # Check that bases are equal for two lsd objects
 bases_equal <- function(x, y) {
   if (!identical(deb_bases(x), deb_bases(y))) {
-    stop(call. = FALSE, "`bases` attributes must be equal to combine <deb_lsd> or <deb_decimal> objects.")
+    stop(call. = FALSE,
+         "`bases` attributes must be equal to combine <deb_lsd> or <deb_decimal> objects.")
   }
 }
 

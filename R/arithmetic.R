@@ -4,9 +4,9 @@
 
 # sum
 lsd_sum <- function(x, ...) {
-  ret <- new_lsd(sum(vctrs::field(x, "l")),
-                 sum(vctrs::field(x, "s")),
-                 sum(vctrs::field(x, "d")),
+  ret <- new_lsd(sum(vctrs::field(x, "l"), ...),
+                 sum(vctrs::field(x, "s"), ...),
+                 sum(vctrs::field(x, "d"), ...),
                  bases = deb_bases(x))
 
   deb_normalize(ret)
@@ -44,7 +44,8 @@ vec_math.deb_lsd <- function(fun, x, ...) {
   switch(
     fun,
     sum = lsd_sum(x, ...),
-    mean = lsd_sum(x) / vctrs::vec_size(x),
+    # Remove NA from divisor
+    mean = lsd_sum(x, ...) / vctrs::vec_size(purrr::discard(x, .p = is.na)),
     ceiling = lsd_ceiling(x),
     floor = lsd_floor(x),
     trunc = lsd_trunc(x, ...),
@@ -62,7 +63,9 @@ vec_arith.deb_lsd.default <- function(op, x, y) {
   vctrs::stop_incompatible_op(op, x, y)
 }
 
-# Operators with lsd and lsd
+
+# Operators with lsd and lsd ----------------------------------------------
+
 lsd_plus <- function(x, y) {
   c(x, y) %<-% vctrs::vec_recycle_common(x, y)
 
@@ -85,7 +88,6 @@ lsd_minus <- function(x, y) {
   deb_normalize(ret)
 }
 
-# deb_lsd and deb_lsd
 vec_arith.deb_lsd.deb_lsd <- function(op, x, y) {
   bases_equal(x, y)
 
@@ -98,7 +100,9 @@ vec_arith.deb_lsd.deb_lsd <- function(op, x, y) {
   )
 }
 
-# Operators with numeric
+
+# Operators with deb_lsd and numeric --------------------------------------
+
 lsd_multiply <- function(x, multiplier) {
   c(x, multiplier) %<-% vctrs::vec_recycle_common(x, multiplier)
 
@@ -121,7 +125,6 @@ lsd_divide <- function(x, divisor) {
   deb_normalize(ret)
 }
 
-
 # deb_lsd and numeric
 vec_arith.deb_lsd.numeric <- function(op, x, y) {
   switch(
@@ -141,7 +144,9 @@ vec_arith.numeric.deb_lsd <- function(op, x, y) {
   )
 }
 
-# Unary operators
+
+# Unary operators with deb_lsd --------------------------------------------
+
 lsd_negate <- function(x) {
   vctrs::field(x, "l") <- vctrs::field(x, "l") * -1
   vctrs::field(x, "s") <- vctrs::field(x, "s") * -1
@@ -169,7 +174,9 @@ vec_arith.deb_decimal.default <- function(op, x, y) {
   vctrs::stop_incompatible_op(op, x, y)
 }
 
-# deb_decimal and deb_decimal
+
+# Operators with deb_decimal and deb_decimal ------------------------------
+
 vec_arith.deb_decimal.deb_decimal <- function(op, x, y) {
   # Ensure bases and units are equal
   bases_equal(x, y)
@@ -187,7 +194,7 @@ vec_arith.deb_decimal.deb_decimal <- function(op, x, y) {
 }
 
 
-# deb_decimal and numeric
+# Operators with deb_decimal and numeric ----------------------------------
 vec_arith.deb_decimal.numeric <- function(op, x, y) {
   switch(
     op,
@@ -217,7 +224,9 @@ vec_arith.numeric.deb_decimal <- function(op, x, y) {
   )
 }
 
-# Unary operators
+
+# Unary operators with deb_decimal ----------------------------------------
+
 vec_arith.deb_decimal.MISSING <- function(op, x, y) {
   switch(
     op,
@@ -228,10 +237,12 @@ vec_arith.deb_decimal.MISSING <- function(op, x, y) {
 }
 
 
-# deb_lsd and deb_decimal arithmetic --------------------------------------
+# Operators with deb_lsd and deb_decimal ----------------------------------
 
 # deb_lsd and deb_decimal
 vec_arith.deb_lsd.deb_decimal <- function(op, x, y) {
+  bases_equal(x, y)
+
   switch(
     op,
     "+" = lsd_plus(x, deb_as_lsd(y)),
@@ -243,6 +254,8 @@ vec_arith.deb_lsd.deb_decimal <- function(op, x, y) {
 
 # deb_decimal and deb_lsd
 vec_arith.deb_decimal.deb_lsd <- function(op, x, y) {
+  bases_equal(x, y)
+
   switch(
     op,
     "+" = lsd_plus(deb_as_lsd(x), y),
