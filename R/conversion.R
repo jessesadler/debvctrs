@@ -23,7 +23,7 @@ deb_convert_bases.deb_lsd <- function(x, to) {
     vctrs::field(x, "d") * prod(to) / prod(from)
   attr(x, "bases") <- to
 
-  x
+  deb_normalize(x)
 }
 
 deb_convert_bases.deb_decimal <- function(x, to) {
@@ -37,7 +37,7 @@ deb_convert_bases.deb_decimal <- function(x, to) {
     converted <- x
   } else if (deb_unit(x) == "s") {
     converted <- x * to[[1]] / from[[1]]
-  } else {
+  } else if (deb_unit(x) == "d") {
     converted <- x * prod(to) / prod(from)
   }
 
