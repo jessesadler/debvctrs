@@ -3,6 +3,7 @@
 x <- deb_lsd(5, 82, 56)
 neg <- deb_lsd(-5, -82, -56)
 decimal <- deb_lsd(5.875, 84.325, 62.0999)
+floating <- deb_lsd(9.45, 0, 0)
 
 bases <- c(50, 16)
 x_bases <- deb_lsd(5, 82, 56, bases)
@@ -26,6 +27,8 @@ test_that("decimal_check works", {
   expect_equal(decimal_check(deb_lsd(-5.875, -84.325, -62.0999)),
                deb_lsd(-5, -101, -71.9999))
   expect_equal(decimal_check(decimal_bases), deb_lsd(5, 128, 63.2999, bases))
+  # Floating point problems
+  expect_equal(vctrs::field(decimal_check(floating), "d"), 12)
 })
 
 test_that("lsd_normalize and lsd_normalize_neg work", {
@@ -37,6 +40,7 @@ test_that("lsd_normalize and lsd_normalize_neg work", {
 
 test_that("it comes together with deb_normalize", {
   expect_equal(deb_normalize(x), deb_lsd(9, 6, 8))
+  expect_equal(deb_normalize(floating), deb_lsd(9, 9, 0))
   expect_equal(deb_normalize(deb_lsd(9, -6, 8)), deb_lsd(8, 14, 8))
   expect_equal(deb_normalize(multi),
                deb_lsd(c(9, -9, 10), c(6, -6, 6), c(8, -8, 11.9999)))

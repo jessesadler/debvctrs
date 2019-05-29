@@ -1,8 +1,8 @@
 ## Normalize lsd values ##
 
-is_negative <- function(x) {
-  vctrs::field(x, "l") + vctrs::field(x, "s") /
-    deb_bases(x)[[1]] + vctrs::field(x, "d") / prod(deb_bases(x)) < 0
+# To help deal with floating point problems in lsd_decimal
+should_be_int <- function(x, tol = .Machine$double.eps^0.5) {
+  abs(x - round(x)) < tol
 }
 
 decimal_check <- function(lsd) {
@@ -14,8 +14,17 @@ decimal_check <- function(lsd) {
   temp_s <- s + (l - trunc(l)) * deb_bases(lsd)[[1]]
   vctrs::field(lsd, "s") <- trunc(temp_s)
   vctrs::field(lsd, "d") <- d + (temp_s - trunc(temp_s)) * deb_bases(lsd)[[2]]
+  # Deal with floating point problems potentially introduced by the above
+  vctrs::field(lsd, "d") <- dplyr::if_else(should_be_int(vctrs::field(lsd, "d")),
+                                           round(vctrs::field(lsd, "d")),
+                                           vctrs::field(lsd, "d"))
 
   lsd
+}
+
+is_negative <- function(x) {
+  vctrs::field(x, "l") + vctrs::field(x, "s") /
+    deb_bases(x)[[1]] + vctrs::field(x, "d") / prod(deb_bases(x)) < 0
 }
 
 lsd_normalize <- function(lsd) {
