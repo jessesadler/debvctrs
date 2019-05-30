@@ -16,6 +16,9 @@ test_that("Bases conversion works with deb_lsd objects", {
   expect_equal(deb_convert_bases(lsd1, to = c(20, 12)), lsd1)
   expect_equal(deb_convert_bases(lsd1, to = bases2), lsd2)
   expect_equal(deb_convert_bases(lsd2, to = c(20, 12)), lsd1)
+  # Error with non-deb object
+  expect_error(deb_convert_bases("a", c(20, 12)),
+               "`x` must be a <deb_lsd>  or <deb_decimal> vector.")
 })
 
 test_that("Bases conversion works with deb_decimal objects", {
