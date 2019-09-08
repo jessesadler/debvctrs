@@ -4,15 +4,11 @@
 \name{debvctrs-package}
 \alias{debvctrs}
 \alias{debvctrs-package}
-\title{debvctrs: Analysis of Non-Decimal Currencies and Double-Entry Bookkeeping}
+\title{debvctrs: Tutorial for building S3 vectors with vctrs}
 \description{
-`debkeepr` provides an interface for analyzing non-decimal
-    currencies that use the tripartite system of pounds, shillings, and pence
-    through the implementation of the `lsd` class. `debkeepr` includes
-    functions to apply arithmetic and financial operations to single or
-    multiple values and to analyze account books that use either
-    single-entry bookkeeping or double-entry bookkeeping with the latter
-    providing the name for `debkeepr`.
+Based on the more complete debkeepr package, this package
+    is a tutorial to help demonstrate the process for creating custom
+    vector classes with the vctrs package.
 }
 \author{
 \strong{Maintainer}: Jesse Sadler \email{jsadler@ucla.edu} (0000-0001-6081-9681)

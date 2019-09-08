@@ -3,11 +3,11 @@
 lsd1 <- deb_lsd(5, 6, 8)
 bases2 <- c(40, 24)
 lsd2 <- deb_lsd(5, 13, 8, bases2)
-dec_l <- deb_decimal(16/3)
-dec_s <- deb_decimal(106 + 2/3, unit = "s")
+dec_l <- deb_decimal(16 / 3)
+dec_s <- deb_decimal(106 + 2 / 3, unit = "s")
 dec_d <- deb_decimal(1280, unit = "d")
-dec_lb2 <- deb_decimal(16/3, bases = bases2)
-dec_sb2 <- deb_decimal(213 + 1/3, unit = "s", bases = bases2)
+dec_lb2 <- deb_decimal(16 / 3, bases = bases2)
+dec_sb2 <- deb_decimal(213 + 1 / 3, unit = "s", bases = bases2)
 dec_db2 <- deb_decimal(5120, unit = "d", bases = bases2)
 
 # Bases conversion --------------------------------------------------------

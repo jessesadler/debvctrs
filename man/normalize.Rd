@@ -27,24 +27,6 @@ length 2 used to specify the bases for the shillings or s and pence or
 d units. Default is \code{c(20, 12)}, which conforms to the most widely used
 system of 1 pound = 20 shillings and 1 shilling = 12 pence.}
 }
-\value{
-Returns an object of class \code{deb_lsd} with normalized solidus and
-denarius units.
-}
 \description{
-Normalize pounds, shillings, and pence values to given bases of solidus
-and denarius units.
-}
-\examples{
-
-# Normalize a deb_lsd object
-x <- deb_lsd(12, 93, 78)
-y <- deb_lsd(12, 93, 78, bases = c(60, 16))
-deb_normalize(x)
-deb_normalize(y)
-
-# Normalize a numeric vector of length 3
-deb_normalize(c(12, 93, 78), bases = c(20, 12))
-deb_normalize(c(12, 93, 78), bases = c(60, 16))
-
+Normalize pounds, shillings, and pence
 }

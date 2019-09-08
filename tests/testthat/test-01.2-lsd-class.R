@@ -25,13 +25,15 @@ test_that("deb_lsd works", {
   expect_equal(vctrs::field(x, "l"), c(1, 2, 3))
   expect_equal(vctrs::field(x, "s"), c(4, 5, 6))
   expect_equal(vctrs::field(x, "d"), c(7, 8, 9))
-  expect_equal(deb_bases(x), c(s = 20L, d = 12L))
-  expect_equal(deb_bases(deb_lsd(1, 2, 3, bases = c(60, 16))), c(s = 60L, d = 16L))
+  expect_equal(deb_bases(x), c(20L, 12L))
+  expect_equal(deb_bases(deb_lsd(1, 2, 3, bases = c(60, 16))), c(60L, 16L))
 })
 
 test_that("deb_lsd prints", {
   expect_that(print(x), prints_text())
-  expect_that(print(deb_lsd(c(1, 2, 3), c(4, 5, 6), c(7, 8, NA))), prints_text())
+  expect_that(print(deb_lsd(c(1, 2, 3), c(4, 5, 6), c(7, 8, NA))),
+              prints_text())
   expect_equal(vctrs::vec_ptype_abbr(x), "lsd[20s:12d]")
-  expect_equal(vctrs::vec_ptype_abbr(deb_lsd(1, 2, 3, bases = c(60, 16))), "lsd[60s:16d]")
+  expect_equal(vctrs::vec_ptype_abbr(deb_lsd(1, 2, 3, bases = c(60, 16))),
+               "lsd[60s:16d]")
 })
