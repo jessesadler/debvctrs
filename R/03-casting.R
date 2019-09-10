@@ -170,7 +170,7 @@ vec_cast.character.deb_lsd <- function(x, to, ...) {
 }
 
 
-# C) deb_decimal and deb_lsd ----------------------------------------------
+# C) Casting between deb_decimal and deb_lsd ------------------------------
 
 # deb_decimal to deb_lsd
 
@@ -226,9 +226,15 @@ vec_cast.deb_decimal.deb_lsd <- function(x, to, ...) {
 }
 
 
-# 4. casting methods ------------------------------------------------------
+# 4. Casting function -----------------------------------------------------
 
-# A) deb_decimal casting methods ------------------------------------------
+# May be able to just create a casting function: as_myclass()
+# Due to issues with conversion of attributes, it makes sense to implement a
+# generic with methods for the different types that use different arguments.
+# For instance, deb_as_decimal() should not be used to convert unit or bases.
+# Therefore, these arguments are not listed in the method for deb_decimal.
+
+# A) deb_decimal casting generic and methods ------------------------------
 
 #' Cast to `deb_decimal`
 #'
@@ -237,8 +243,8 @@ vec_cast.deb_decimal.deb_lsd <- function(x, to, ...) {
 #' @param x An object to coerce to `deb_decimal`.
 #' @param ... Arguments passed on to further methods.
 #' @param unit A character vector of length one indicating the unit for the
-#'   decimalized values, either `"l"` (libra, the default), `"s"` (solidus),
-#'   or `"d"` (denarius).
+#'   decimalized values, either `"l"` (pounds, the default), `"s"` (shillings),
+#'   or `"d"` (pence).
 #' @param bases Numeric vector of length 2 used to specify the bases for the
 #'   solidus or s and denarius or d units. Default is `c(20, 12)`, which
 #'   conforms to the most widely used system of 1 pound = 20 shillings and
@@ -252,13 +258,6 @@ NULL
 #' @export
 deb_as_decimal <- function(x, ...) {
   UseMethod("deb_as_decimal")
-}
-
-# Default
-#' @rdname cast-decimal
-#' @export
-deb_as_decimal.default <- function(x, ...) {
-  vctrs::vec_default_cast(x, deb_decimal())
 }
 
 # From deb_decimal
@@ -293,7 +292,7 @@ deb_as_decimal.logical <- function(x,
 }
 
 
-# B) deb_lsd casting methods ----------------------------------------------
+# B) deb_lsd casting generic and methods ----------------------------------
 
 #' Cast to `deb_lsd`
 #'
@@ -314,13 +313,6 @@ NULL
 #' @export
 deb_as_lsd  <- function(x, ...) {
   UseMethod("deb_as_lsd")
-}
-
-# Default
-#' @rdname cast-lsd
-#' @export
-deb_as_lsd.default <- function(x, ...) {
-  vctrs::vec_default_cast(x, deb_lsd())
 }
 
 # From deb_lsd

@@ -3,7 +3,6 @@
 \name{cast-decimal}
 \alias{cast-decimal}
 \alias{deb_as_decimal}
-\alias{deb_as_decimal.default}
 \alias{deb_as_decimal.deb_decimal}
 \alias{deb_as_decimal.deb_lsd}
 \alias{deb_as_decimal.numeric}
@@ -11,8 +10,6 @@
 \title{Cast to \code{deb_decimal}}
 \usage{
 deb_as_decimal(x, ...)
-
-\method{deb_as_decimal}{default}(x, ...)
 
 \method{deb_as_decimal}{deb_decimal}(x, ...)
 
@@ -30,8 +27,8 @@ deb_as_decimal(x, ...)
 \item{...}{Arguments passed on to further methods.}
 
 \item{unit}{A character vector of length one indicating the unit for the
-decimalized values, either \code{"l"} (libra, the default), \code{"s"} (solidus),
-or \code{"d"} (denarius).}
+decimalized values, either \code{"l"} (pounds, the default), \code{"s"} (shillings),
+or \code{"d"} (pence).}
 
 \item{bases}{Numeric vector of length 2 used to specify the bases for the
 solidus or s and denarius or d units. Default is \code{c(20, 12)}, which

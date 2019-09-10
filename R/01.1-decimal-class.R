@@ -5,7 +5,7 @@
 # unit attribute whether value is pounds (libra), shillings (solidus),
 # or pence (denarius).
 
-# 1. Constructor -------------------------------------------------------------
+# 1. Constructor ----------------------------------------------------------
 
 #' Internal constructor to create `deb_decimal` type
 #'
@@ -15,9 +15,12 @@
 #'
 #' @keywords internal
 
+# 1. Define arguments
 new_decimal <- function(x = double(),
                         unit = c("l", "s", "d"),
                         bases = c(20L, 12L)) {
+
+# 2. Ensure proper types and sizes for arguments
   # Assert x is double()
   vctrs::vec_assert(x, ptype = double())
 
@@ -27,7 +30,7 @@ new_decimal <- function(x = double(),
   # Assert bases is a vector of length 2
   vctrs::vec_assert(bases, ptype = integer(), size = 2)
 
-  # Create deb_decimal class
+# 3. Create deb_decimal class
   vctrs::new_vctr(x,
                   unit = unit,
                   bases = bases,
@@ -35,7 +38,7 @@ new_decimal <- function(x = double(),
 }
 
 
-# 2. Helper ------------------------------------------------------------------
+# 2. Helper ---------------------------------------------------------------
 
 #' A decimalized class for pounds, shillings, and pence values
 #'
@@ -48,20 +51,33 @@ new_decimal <- function(x = double(),
 #' @inheritParams deb_lsd
 #' @export
 
+#1. Define function
 deb_decimal <- function(x = double(),
                         unit = c("l", "s", "d"),
                         bases = c(20, 12)) {
+
+# 2. Checks: see 01.3-check.R
   unit <- rlang::arg_match(unit)
   bases_check(bases)
 
+# 3. Cast to allow compatible types for each argument
   x <- vctrs::vec_cast(x, to = double())
   bases <- vctrs::vec_cast(bases, to = integer())
 
+# 4. Use new_decimal() to do actual creation of the vector
   new_decimal(x = x, unit = unit, bases = bases)
 }
 
 
-# 3. Attribute access --------------------------------------------------------
+# 3. Formally declare S3 class --------------------------------------------
+
+# Must add methods to Imports in DESCRIPTION
+
+#' @importFrom methods setOldClass
+setOldClass(c("deb_decimal", "vctrs_vctr"))
+
+
+# 4. Attribute access -----------------------------------------------------
 
 #' Access the unit attribute of a `deb_decimal` object.
 #'
@@ -70,7 +86,7 @@ deb_decimal <- function(x = double(),
 deb_unit <- function(x) attr(x, "unit")
 
 
-# 4. Class check -------------------------------------------------------------
+# 5. Class check ----------------------------------------------------------
 
 #' Test if an object is of class `deb_decimal`
 #' @param x An object.
@@ -81,7 +97,7 @@ deb_unit <- function(x) attr(x, "unit")
 deb_is_decimal <- function(x) inherits(x, "deb_decimal")
 
 
-# 5. Format method -----------------------------------------------------------
+# 6. Format method --------------------------------------------------------
 # No format.deb_decimal to keep default vector printing
 
 # Add footer with attribute data
@@ -89,11 +105,11 @@ deb_is_decimal <- function(x) inherits(x, "deb_decimal")
 # To print full name of unit in footer
 unit_word <- function(x) {
   if (attr(x, "unit") == "l") {
-    unit <- "libra"
+    unit <- "pounds"
   } else if (attr(x, "unit") == "s") {
-    unit <- "solidus"
+    unit <- "shillings"
   } else {
-    unit <- "denarius"
+    unit <- "pence"
   }
   unit
 }
@@ -109,7 +125,7 @@ obj_print_footer.deb_decimal <- function(x, ...) {
       "# Bases: ", s, "s ", d, "d", "\n", sep = "")
 }
 
-# 6. Abbreviated name type ---------------------------------------------------
+# 7. Abbreviated name type ------------------------------------------------
 # Used in column labels in tibble and str()
 
 #' @export

@@ -38,6 +38,6 @@ test_that("deb_decimal prints", {
   expect_equal(vctrs::vec_ptype_abbr(deb_decimal(1, unit = "s",
                                                  bases = c(60, 16))),
                "s[60s:16d]")
-  expect_equal(unit_word(deb_decimal(1, "s")), "solidus")
-  expect_equal(unit_word(deb_decimal(1, "d")), "denarius")
+  expect_equal(unit_word(deb_decimal(1, "s")), "shillings")
+  expect_equal(unit_word(deb_decimal(1, "d")), "pence")
 })

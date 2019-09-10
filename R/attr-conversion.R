@@ -77,8 +77,8 @@ deb_convert_bases.deb_decimal <- function(x, to) {
 #'
 #' @param x An object of class `deb_decimal`.
 #' @param to A character vector of length one indicating the unit to be
-#'   converted to. Choice of `"l"` (libra, the default), `"s"` (solidus),
-#'   or `"d"` (denarius).
+#'   converted to. Choice of `"l"` (pounds, the default), `"s"` (shillings),
+#'   or `"d"` (pence).
 #' @export
 
 deb_convert_unit <- function(x, to = c("l", "s", "d")) {

@@ -10,8 +10,8 @@ deb_convert_unit(x, to = c("l", "s", "d"))
 \item{x}{An object of class \code{deb_decimal}.}
 
 \item{to}{A character vector of length one indicating the unit to be
-converted to. Choice of \code{"l"} (libra, the default), \code{"s"} (solidus),
-or \code{"d"} (denarius).}
+converted to. Choice of \code{"l"} (pounds, the default), \code{"s"} (shillings),
+or \code{"d"} (pence).}
 }
 \description{
 Convert the unit of \code{deb_decimal} objects

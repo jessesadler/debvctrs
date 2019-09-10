@@ -2,9 +2,9 @@
 
 # deb_decimal gets this for free because it is based on double()
 
-# 1. deb_lsd equality --------------------------------------------------------
+# 1. deb_lsd equality -----------------------------------------------------
 
-# Normalize x and then create data.frame for equality check
+# Normalize x and then create data frame for equality check
 
 #' @rdname vctrs-compat
 #' @method vec_proxy_equal deb_lsd
@@ -18,7 +18,7 @@ vec_proxy_equal.deb_lsd <- function(x, ...) {
 }
 
 
-# 2. deb_lsd comparison ------------------------------------------------------
+# 2. deb_lsd comparison ---------------------------------------------------
 
 # Convert to double() to do comparison
 

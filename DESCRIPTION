@@ -14,6 +14,7 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.1
 Imports: 
+    methods,
     rlang (>= 0.4.0),
     vctrs (>= 0.2.0),
     zeallot

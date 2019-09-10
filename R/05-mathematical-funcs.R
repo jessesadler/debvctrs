@@ -23,7 +23,7 @@ NULL
 #' @export
 sum.deb_lsd <- function(..., na.rm = FALSE) {
   x <- vctrs::vec_c(...)
-  # Remove NA so fields that are not NA are not added
+  # Remove NA if na.rm is TRUE
   if (na.rm == TRUE) {
     x <- x[!is.na(x)]
   }

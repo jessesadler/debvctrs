@@ -20,7 +20,7 @@ vec_arith.deb_decimal.default <- function(op, x, y) {
 }
 
 
-# 2. Operators with deb_decimal and deb_decimal ------------------------------
+# 2. Operators with deb_decimal and deb_decimal ---------------------------
 
 dec_arithmetic <- function(op, x, y) {
   xy <- vctrs::vec_cast_common(x, y)
@@ -46,7 +46,7 @@ vec_arith.deb_decimal.deb_decimal <- function(op, x, y) {
 }
 
 
-# 3. Operators with deb_decimal and numeric ----------------------------------
+# 3. Operators with deb_decimal and numeric -------------------------------
 
 #' @rdname vctrs-compat
 #' @method vec_arith.deb_decimal numeric
@@ -86,7 +86,7 @@ vec_arith.numeric.deb_decimal <- function(op, x, y) {
 }
 
 
-# 4. Unary operators with deb_decimal ----------------------------------------
+# 4. Unary operators with deb_decimal -------------------------------------
 
 #' @rdname vctrs-compat
 #' @method vec_arith.deb_decimal MISSING
@@ -120,7 +120,7 @@ vec_arith.deb_lsd.default <- function(op, x, y) {
 }
 
 
-# 2. Operators with lsd and lsd ----------------------------------------------
+# 2. Operators with lsd and lsd -------------------------------------------
 
 lsd_plus <- function(x, y) {
   c(x, y) %<-% vctrs::vec_recycle_common(x, y)
@@ -160,7 +160,7 @@ vec_arith.deb_lsd.deb_lsd <- function(op, x, y) {
 }
 
 
-# 3. Operators with deb_lsd and numeric --------------------------------------
+# 3. Operators with deb_lsd and numeric -----------------------------------
 
 lsd_multiply <- function(x, multiplier) {
   c(x, multiplier) %<-% vctrs::vec_recycle_common(x, multiplier)
@@ -223,7 +223,7 @@ vec_arith.numeric.deb_lsd <- function(op, x, y) {
 }
 
 
-# 4. Unary operators with deb_lsd --------------------------------------------
+# 4. Unary operators with deb_lsd -----------------------------------------
 
 lsd_negate <- function(x) {
   vctrs::field(x, "l") <- vctrs::field(x, "l") * -1
