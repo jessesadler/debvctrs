@@ -4,8 +4,7 @@
 \alias{new_lsd}
 \title{Internal constructor to create deb_lsd type}
 \usage{
-new_lsd(l = double(), s = double(), d = double(), bases = c(20L,
-  12L))
+new_lsd(l = double(), s = double(), d = double(), bases = c(20L, 12L))
 }
 \description{
 Asserts that \code{l}, \code{s} and \code{d} are of type \code{double()} and that \code{bases} is an

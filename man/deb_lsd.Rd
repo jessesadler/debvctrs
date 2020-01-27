@@ -4,8 +4,7 @@
 \alias{deb_lsd}
 \title{A class for pounds, shillings and pence values}
 \usage{
-deb_lsd(l = double(), s = double(), d = double(), bases = c(20,
-  12))
+deb_lsd(l = double(), s = double(), d = double(), bases = c(20, 12))
 }
 \arguments{
 \item{l}{Numeric vector representing the pounds unit.}

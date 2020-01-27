@@ -15,11 +15,9 @@ deb_as_decimal(x, ...)
 
 \method{deb_as_decimal}{deb_lsd}(x, unit = c("l", "s", "d"), ...)
 
-\method{deb_as_decimal}{numeric}(x, unit = c("l", "s", "d"),
-  bases = c(20, 12), ...)
+\method{deb_as_decimal}{numeric}(x, unit = c("l", "s", "d"), bases = c(20, 12), ...)
 
-\method{deb_as_decimal}{logical}(x, unit = c("l", "s", "d"),
-  bases = c(20, 12), ...)
+\method{deb_as_decimal}{logical}(x, unit = c("l", "s", "d"), bases = c(20, 12), ...)
 }
 \arguments{
 \item{x}{An object to coerce to \code{deb_decimal}.}
