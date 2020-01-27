@@ -1,4 +1,4 @@
-## bases and unit conversion ##
+## Convert the bases and units of decimal and lsd vectors ##
 
 # Convert bases -----------------------------------------------------------
 

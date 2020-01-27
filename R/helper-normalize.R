@@ -1,13 +1,11 @@
-## Normalize deb_lsd vectors ##
-
-# Normalize tripartite non-decimal currency values in deb_lsd vectors
+## Normalize values in deb_lsd vectors ##
 
 # Normalization is the process of converting a set of compound units to a
 # standard form consistent with the bases for each unit in a manner similar to
 # "carrying over" digits in decimal arithmetic. Normalization is central to
 # integrating non-decimal currencies into R.
 
-# 1. Normalize l and s units to whole numbers -----------------------------
+# 1. Convert l and s units to whole numbers -----------------------------
 
 # To help deal with floating point problems
 should_be_int <- function(x, tol = .Machine$double.eps^0.5) {
