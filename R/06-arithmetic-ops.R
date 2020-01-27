@@ -22,8 +22,10 @@ vec_arith.deb_decimal.default <- function(op, x, y) {
 
 # 2. Operators with deb_decimal and deb_decimal ---------------------------
 
+# Stand in for vec_arith_base() that converts unit attributes
+# if they are different.
 dec_arithmetic <- function(op, x, y) {
-  xy <- vctrs::vec_cast_common(x, y)
+  xy <- vctrs::vec_cast_common(x, y) # ensures units are the same
   vctrs::vec_arith_base(op, xy[[1]], xy[[2]])
 }
 
@@ -48,6 +50,8 @@ vec_arith.deb_decimal.deb_decimal <- function(op, x, y) {
 
 # 3. Operators with deb_decimal and numeric -------------------------------
 
+# a) deb_decimal and numeric
+
 #' @rdname vctrs-compat
 #' @method vec_arith.deb_decimal numeric
 #' @export
@@ -67,7 +71,7 @@ vec_arith.deb_decimal.numeric <- function(op, x, y) {
   )
 }
 
-# numeric and deb_decimal
+# b) numeric and deb_decimal
 
 #' @rdname vctrs-compat
 #' @method vec_arith.numeric deb_decimal
@@ -102,6 +106,9 @@ vec_arith.deb_decimal.MISSING <- function(op, x, y) {
 
 # B) deb_lsd arithmetic operators -----------------------------------------
 
+# Arithmetic with record style vectors is a bit more complex. We need to create
+# our own functions for each arithmetic operator that we want to implement.
+
 # 1. Arithmetic boilerplate -----------------------------------------------
 
 #' @rdname vctrs-compat
@@ -122,6 +129,9 @@ vec_arith.deb_lsd.default <- function(op, x, y) {
 
 # 2. Operators with lsd and lsd -------------------------------------------
 
+# a) Define functions
+
+# 1. Addition: deb_lsd() + deb_lsd()
 lsd_plus <- function(x, y) {
   c(x, y) %<-% vctrs::vec_recycle_common(x, y)
 
@@ -133,6 +143,7 @@ lsd_plus <- function(x, y) {
   deb_normalize(ret)
 }
 
+# 2. Subtraction: deb_lsd() - deb_lsd()
 lsd_minus <- function(x, y) {
   c(x, y) %<-% vctrs::vec_recycle_common(x, y)
 
@@ -144,6 +155,8 @@ lsd_minus <- function(x, y) {
   deb_normalize(ret)
 }
 
+# b) Implement above functions
+
 #' @rdname vctrs-compat
 #' @method vec_arith.deb_lsd deb_lsd
 #' @export
@@ -154,7 +167,7 @@ vec_arith.deb_lsd.deb_lsd <- function(op, x, y) {
     op,
     "+" = lsd_plus(x, y),
     "-" = lsd_minus(x, y),
-    "/" = as.double(x) / as.double(y),
+    "/" = as.double(x) / as.double(y), # division of two deb_lsd = a double()
     vctrs::stop_incompatible_op(op, x, y)
   )
 }
@@ -162,6 +175,9 @@ vec_arith.deb_lsd.deb_lsd <- function(op, x, y) {
 
 # 3. Operators with deb_lsd and numeric -----------------------------------
 
+# a) Define functions
+
+# 1. Multiplication: deb_lsd() * numeric()
 lsd_multiply <- function(x, multiplier) {
   c(x, multiplier) %<-% vctrs::vec_recycle_common(x, multiplier)
 
@@ -173,7 +189,7 @@ lsd_multiply <- function(x, multiplier) {
   deb_normalize(ret)
 }
 
-# Divide lsd by numeric
+# 2. Division: lsd() / numeric()
 lsd_dividend <- function(x, divisor) {
   c(x, divisor) %<-% vctrs::vec_recycle_common(x, divisor)
 
@@ -185,7 +201,7 @@ lsd_dividend <- function(x, divisor) {
   deb_normalize(ret)
 }
 
-# Divide numeric by lsd
+# 3. Division: numeric() / lsd()
 lsd_divisor <- function(dividend, x) {
   c(dividend, x) %<-% vctrs::vec_recycle_common(dividend, x)
 
@@ -194,7 +210,7 @@ lsd_divisor <- function(dividend, x) {
   deb_as_lsd(ret)
 }
 
-# deb_lsd and numeric
+# Implement deb_lsd() and numeric()
 
 #' @rdname vctrs-compat
 #' @method vec_arith.deb_lsd numeric
@@ -208,7 +224,7 @@ vec_arith.deb_lsd.numeric <- function(op, x, y) {
   )
 }
 
-# numeric and deb_lsd
+# Implement numeric() and deb_lsd()
 
 #' @rdname vctrs-compat
 #' @method vec_arith.numeric deb_lsd
@@ -225,6 +241,7 @@ vec_arith.numeric.deb_lsd <- function(op, x, y) {
 
 # 4. Unary operators with deb_lsd -----------------------------------------
 
+# Define function
 lsd_negate <- function(x) {
   vctrs::field(x, "l") <- vctrs::field(x, "l") * -1
   vctrs::field(x, "s") <- vctrs::field(x, "s") * -1
@@ -248,7 +265,7 @@ vec_arith.deb_lsd.MISSING <- function(op, x, y) {
 
 # C) Operators with deb_lsd and deb_decimal -------------------------------
 
-# deb_lsd and deb_decimal
+# 1. deb_lsd() and deb_decimal()
 
 #' @rdname vctrs-compat
 #' @method vec_arith.deb_lsd deb_decimal
@@ -265,7 +282,7 @@ vec_arith.deb_lsd.deb_decimal <- function(op, x, y) {
   )
 }
 
-# deb_decimal and deb_lsd
+# 2. deb_decimal() and deb_lsd()
 
 #' @rdname vctrs-compat
 #' @method vec_arith.deb_decimal deb_lsd

@@ -1,9 +1,10 @@
 ## Define deb_decimal class ##
 
-# Based on a double vector
-# bases attribute for bases of shillings and pence units.
-# unit attribute whether value is pounds (libra), shillings (solidus),
-# or pence (denarius).
+# The deb_decimal class is based on a double vector.
+# It has two attributes:
+# 1. bases attribute determines the bases of shillings and pence units.
+# 2. unit attribute determines whether the unit of the value is
+#    pounds (libra), shillings (solidus), or pence (denarius).
 
 # 1. Constructor ----------------------------------------------------------
 
@@ -15,26 +16,29 @@
 #'
 #' @keywords internal
 
+# Constructor steps overview
 # 1. Define arguments
+# 2. Checks: Ensure proper types and sizes for arguments
+#    a) Assert x is double()
+#    b) Match unit: also checks that unit is character()
+#    c) Assert bases is a vector of length 2
+# 3. Create deb_decimal class
+
 new_decimal <- function(x = double(),
                         unit = c("l", "s", "d"),
                         bases = c(20L, 12L)) {
-
-# 2. Ensure proper types and sizes for arguments
-  # Assert x is double()
+  # 2. Checks
   vctrs::vec_assert(x, ptype = double())
-
-  # Match unit: also checks that unit is character()
   unit <- rlang::arg_match(unit)
-
-  # Assert bases is a vector of length 2
   vctrs::vec_assert(bases, ptype = integer(), size = 2)
 
-# 3. Create deb_decimal class
+  # 3. Create deb_decimal class
+  #    inherit_base_type = TRUE adds double to vector of classes
   vctrs::new_vctr(x,
                   unit = unit,
                   bases = bases,
-                  class = "deb_decimal")
+                  class = "deb_decimal",
+                  inherit_base_type = TRUE)
 }
 
 
@@ -51,20 +55,24 @@ new_decimal <- function(x = double(),
 #' @inheritParams deb_lsd
 #' @export
 
-#1. Define function
+# Helper steps
+# 1. Define function
+# 2. Checks: see 01.3-check.R
+# 3. Cast to allow compatible types for each argument
+# 4. Use new_decimal() to do actual creation of the vector
 deb_decimal <- function(x = double(),
                         unit = c("l", "s", "d"),
                         bases = c(20, 12)) {
 
-# 2. Checks: see 01.3-check.R
+  # 2. Checks
   unit <- rlang::arg_match(unit)
   bases_check(bases)
 
-# 3. Cast to allow compatible types for each argument
+  # 3. Casts for compatible types
   x <- vctrs::vec_cast(x, to = double())
   bases <- vctrs::vec_cast(bases, to = integer())
 
-# 4. Use new_decimal() to do actual creation of the vector
+  # 4. Create deb_decimal vector
   new_decimal(x = x, unit = unit, bases = bases)
 }
 
@@ -78,6 +86,8 @@ setOldClass(c("deb_decimal", "vctrs_vctr"))
 
 
 # 4. Attribute access -----------------------------------------------------
+
+# Note: Access to bases attribute is in 01.2-lsd-class.R
 
 #' Access the unit attribute of a `deb_decimal` object.
 #'
@@ -99,10 +109,9 @@ deb_is_decimal <- function(x) inherits(x, "deb_decimal")
 
 # 6. Format method --------------------------------------------------------
 # No format.deb_decimal to keep default vector printing
+# However, we can add a footer with the attribute data
 
-# Add footer with attribute data
-
-# To print full name of unit in footer
+# Function to print full name of unit in footer
 unit_word <- function(x) {
   if (attr(x, "unit") == "l") {
     unit <- "pounds"

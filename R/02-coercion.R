@@ -1,4 +1,4 @@
-## Coercion for deb_decimal and deb_lsd ##
+## Coercion for deb_decimal and deb_lsd prototypes ##
 
 # Create coercion hierarchy: numeric() -> deb_decimal() -> deb_lsd()
 
@@ -47,7 +47,7 @@ vec_ptype2.deb_decimal.deb_decimal <- function(x, y, ...) {
 
 # 3. Coercion with compatible types ---------------------------------------
 
-# double -> deb_decimal
+# a) double -> deb_decimal
 
 #' @method vec_ptype2.deb_decimal double
 #' @export
@@ -57,7 +57,7 @@ vec_ptype2.deb_decimal.double <- function(x, y, ...) x
 #' @export
 vec_ptype2.double.deb_decimal <- function(x, y, ...) y
 
-# integer -> deb_decimal
+# b) integer -> deb_decimal
 
 #' @method vec_ptype2.deb_decimal integer
 #' @export
@@ -90,6 +90,7 @@ vec_ptype2.deb_lsd.default <- function(x, y, ..., x_arg = "x", y_arg = "y") {
 #' @method vec_ptype2.deb_lsd deb_lsd
 #' @export
 vec_ptype2.deb_lsd.deb_lsd <- function(x, y, ...) {
+  # Ensure that the bases are equal
   bases_equal(x, y)
   new_lsd(bases = deb_bases(x))
 }
@@ -97,7 +98,7 @@ vec_ptype2.deb_lsd.deb_lsd <- function(x, y, ...) {
 
 # 3. Coercion with compatible types ---------------------------------------
 
-# double -> deb_lsd
+# a) double -> deb_lsd
 
 #' @method vec_ptype2.deb_lsd double
 #' @export
@@ -107,7 +108,7 @@ vec_ptype2.deb_lsd.double <- function(x, y, ...) x
 #' @export
 vec_ptype2.double.deb_lsd <- function(x, y, ...) y
 
-# integer -> deb_lsd
+# b) integer -> deb_lsd
 
 #' @method vec_ptype2.deb_lsd integer
 #' @export

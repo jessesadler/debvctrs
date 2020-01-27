@@ -1,7 +1,9 @@
 ## Define deb_lsd class ##
 
-# record-style vector: List of three equal-length double vectors
-# bases attribute for bases of shillings and pence units.
+# The deb_lsd class is based on a record-style vector.
+# Underneath it is a list of three equal-length double vectors.
+# It has a bases attribute for bases of shillings and pence units.
+# This enables the use of bases beyond the standard 20s. 12d.
 
 # 1. Constructor ----------------------------------------------------------
 
@@ -12,22 +14,25 @@
 #'
 #' @keywords internal
 
+# Constructor steps overview
 # 1. Define arguments
+# 2. Checks: Ensure proper types and sizes for arguments
+#    a) Assert l, s, and d are double vectors
+#    b) Assert bases is a vector of length 2
+# 3. Create deb_lsd class
+
 new_lsd <- function(l = double(),
                     s = double(),
                     d = double(),
                     bases = c(20L, 12L)) {
 
-# 2. Ensure proper types and sizes for arguments
-  # Assert l, s, and d are double vectors
+  # 2. Checks
   vctrs::vec_assert(l, ptype = double())
   vctrs::vec_assert(s, ptype = double())
   vctrs::vec_assert(d, ptype = double())
-
-  # Assert bases is a vector of length 2
   vctrs::vec_assert(bases, ptype = integer(), size = 2)
 
-# 3. Create deb_lsd class
+  # 3. Create deb_lsd class
   vctrs::new_rcrd(list(l = l, s = s, d = d),
                   bases = bases,
                   class = "deb_lsd")
@@ -48,27 +53,33 @@ new_lsd <- function(l = double(),
 #'   1 shilling = 12 pence.
 #' @export
 
-#1. Define function
+# Helper steps
+# 1. Define function
+# 2. Checks: see 01.3-check.R
+# 3. Cast to allow compatible types for each argument
+#    Cast l, s, and d to double() using unpacking assignment from zeallot
+# 4. Enforce recycling rules for l, s, and d using unpacking assignment
+#    For discussion of recycling rules, see
+#    https://vctrs.r-lib.org/articles/type-size.html#size
+# 5. Use new_lsd() to do actual creation of the vector
+
 deb_lsd <- function(l = double(),
                     s = double(),
                     d = double(),
                     bases = c(20, 12)) {
 
-# 2. Checks: see 01.3-check.R
+  # 2. Checks
   lsd_check(l, s, d)
   bases_check(bases)
 
-# 3. Cast to allow compatible types for each argument
-  # Cast l, s, and d to double() using unpacking assignment from zeallot
+  # 3. Casts for compatible types
   c(l, s, d) %<-% vctrs::vec_cast_common(l, s, d, .to = double())
   bases <- vctrs::vec_cast(bases, to = integer())
 
-# 4. Enforce recycling rules for l, s, and d using unpacking assignment
-  # For discussion of recycling rules, see
-  # https://vctrs.r-lib.org/articles/type-size.html#size
+  # 4. Enforce recycling rules
   c(l, s, d) %<-% vctrs::vec_recycle_common(l, s, d)
 
-# 5. Use new_lsd() to do actual creation of the vector
+  # 5. Create deb_lsd vector
   new_lsd(l = l, s = s, d = d, bases = bases)
 }
 
@@ -110,11 +121,11 @@ format.deb_lsd <- function(x, ...) {
   d <- round(vctrs::field(x, "d"), 3)
 
   out <- paste0(l, ":", s, "s:", d, "d")
-  out[is.na(l) | is.na(s) | is.na(d)] <- NA
+  out[is.na(l) | is.na(s) | is.na(d)] <- NA # Format NAs
   out
 }
 
-# Add footer with attribute data
+# Add footer with bases attribute data
 #' @export
 obj_print_footer.deb_lsd <- function(x, ...) {
   s <- format(attr(x, "bases")[[1]])
@@ -124,6 +135,7 @@ obj_print_footer.deb_lsd <- function(x, ...) {
 
 
 # 7. Abbreviated name type ------------------------------------------------
+# Used in column labels in tibble and str()
 
 #' @export
 vec_ptype_abbr.deb_lsd <- function(x) {

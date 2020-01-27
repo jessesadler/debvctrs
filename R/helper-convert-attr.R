@@ -1,6 +1,6 @@
 ## Convert the bases and units of decimal and lsd vectors ##
 
-# Convert bases -----------------------------------------------------------
+# A) Convert bases --------------------------------------------------------
 
 #' Convert bases of `deb_lsd` and `deb_decimal` objects
 #'
@@ -27,7 +27,7 @@ deb_convert_bases.default <- function(x, to) {
        "`x` must be a <deb_lsd>  or <deb_decimal> vector.")
 }
 
-# deb_lsd
+# 1. deb_lsd()
 #' @rdname convert-bases
 #' @export
 deb_convert_bases.deb_lsd <- function(x, to) {
@@ -40,6 +40,7 @@ deb_convert_bases.deb_lsd <- function(x, to) {
     return(x)
   }
 
+  # Conversion arithmetic
   temp_s <- vctrs::field(x, "s") * to[[1]] / from[[1]]
   vctrs::field(x, "s") <- trunc(temp_s)
   vctrs::field(x, "d") <- (temp_s - trunc(temp_s)) * to[[2]] +
@@ -49,7 +50,7 @@ deb_convert_bases.deb_lsd <- function(x, to) {
   deb_normalize(x)
 }
 
-# deb_decimal
+# 2. deb_decimal()
 #' @rdname convert-bases
 #' @export
 deb_convert_bases.deb_decimal <- function(x, to) {
@@ -58,6 +59,7 @@ deb_convert_bases.deb_decimal <- function(x, to) {
   from <- deb_bases(x)
   to <- vctrs::vec_cast(to, to = integer())
 
+  # Conversion arithmetic
   if (deb_unit(x) == "l") {
     converted <- x
   } else if (deb_unit(x) == "s") {
@@ -71,7 +73,7 @@ deb_convert_bases.deb_decimal <- function(x, to) {
   converted
 }
 
-# Convert units -----------------------------------------------------------
+# B) Convert units --------------------------------------------------------
 
 #' Convert the unit of `deb_decimal` objects
 #'
@@ -86,6 +88,6 @@ deb_convert_unit <- function(x, to = c("l", "s", "d")) {
     stop(call. = FALSE, "`x` must be a <deb_decimal> object.")
   }
   to_unit <- rlang::arg_match(to)
-
+  # Actual conversion done by vec_cast()
   vctrs::vec_cast(x, deb_decimal(unit = to_unit, bases = deb_bases(x)))
 }

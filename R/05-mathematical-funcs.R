@@ -1,6 +1,7 @@
 ## Mathematical functions with deb_lsd ##
 
-# deb_decimal gets this for free because it is based on double()
+# deb_decimal() gets all this for free because it is based on double()
+# Choose which functions to implement and which to not implement.
 
 #' Mathematical functions with deb_lsd objects
 #'
@@ -15,9 +16,9 @@
 NULL
 
 
-# 1. Implemented mathematical functions -----------------------------------
+# A) Implemented mathematical functions -----------------------------------
 
-# sum ---------------------------------------------------------------------
+# 1. Sum ------------------------------------------------------------------
 
 #' @rdname mathematics
 #' @export
@@ -37,7 +38,7 @@ sum.deb_lsd <- function(..., na.rm = FALSE) {
 }
 
 
-# mean --------------------------------------------------------------------
+# 2. Mean -----------------------------------------------------------------
 
 #' @rdname mathematics
 #' @export
@@ -48,6 +49,8 @@ mean.deb_lsd <- function(x, ..., na.rm = FALSE) {
   sum(x) / vctrs::vec_size(x)
 }
 
+# 3. abs ------------------------------------------------------------------
+
 #' @export
 abs.deb_lsd <- function(x) {
   dec <- deb_as_decimal(x)
@@ -55,7 +58,7 @@ abs.deb_lsd <- function(x) {
 }
 
 
-# cumulative functions ----------------------------------------------------
+# 4. Cumulative functions -------------------------------------------------
 
 #' @rdname mathematics
 #' @export
@@ -81,7 +84,7 @@ cummax.deb_lsd <- function(x) {
 }
 
 
-# Rounding ----------------------------------------------------------------
+# 5. Rounding -------------------------------------------------------------
 
 #' @rdname mathematics
 #' @export
@@ -124,7 +127,7 @@ trunc.deb_lsd <- function(x, ...) {
 
 
 
-# 2. Error message for unimplemented functions ----------------------------
+# B) Error message for unimplemented functions ----------------------------
 
 #' @rdname vctrs-compat
 #' @method vec_math deb_lsd

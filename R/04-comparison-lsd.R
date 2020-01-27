@@ -1,10 +1,13 @@
 ## Equality and comparison for deb_lsd ##
 
-# deb_decimal gets this for free because it is based on double()
+# deb_decimal() gets both equality and comparison for free
+# because it is based on double()
 
-# 1. deb_lsd equality -----------------------------------------------------
+# A) deb_lsd equality -----------------------------------------------------
 
 # Normalize x and then create data frame for equality check
+# Enables ==, !=, unique(), etc.
+# Example of equality: £1 0s. 0d. is equal to £0 20s. 0d.
 
 #' @rdname vctrs-compat
 #' @method vec_proxy_equal deb_lsd
@@ -18,9 +21,10 @@ vec_proxy_equal.deb_lsd <- function(x, ...) {
 }
 
 
-# 2. deb_lsd comparison ---------------------------------------------------
+# B) deb_lsd comparison ---------------------------------------------------
 
 # Convert to double() to do comparison
+# Enables <, <=, >=, >, etc.
 
 #' @rdname vctrs-compat
 #' @method vec_proxy_compare deb_lsd

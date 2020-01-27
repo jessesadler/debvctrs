@@ -7,12 +7,12 @@
 
 # 1. Convert l and s units to whole numbers -----------------------------
 
-# To help deal with floating point problems
+# Function to help deal with floating point problems
 should_be_int <- function(x, tol = .Machine$double.eps^0.5) {
   abs(x - round(x)) < tol
 }
 
-# Deal with decimals in l and s units
+# Deal with any decimals in l and s units
 decimal_check <- function(lsd) {
   l <- vctrs::field(lsd, "l")
   s <- vctrs::field(lsd, "s")
@@ -34,13 +34,15 @@ decimal_check <- function(lsd) {
 
 # 2. Normalization --------------------------------------------------------
 
-# is lsd value positive or negative
+# Different parts of the normalization function
+
+# a) Is lsd value positive or negative?
 is_negative <- function(x) {
   vctrs::field(x, "l") + vctrs::field(x, "s") /
     deb_bases(x)[[1]] + vctrs::field(x, "d") / prod(deb_bases(x)) < 0
 }
 
-# Normalization for positive lsd values
+# b) Normalization for positive lsd values
 lsd_normalize <- function(lsd) {
   l <- vctrs::field(lsd, "l")
   s <- vctrs::field(lsd, "s")
@@ -54,7 +56,7 @@ lsd_normalize <- function(lsd) {
   lsd
 }
 
-# Normalization for negative lsd values
+# c) Normalization for negative lsd values
 lsd_normalize_neg <- function(lsd) {
   l <- -vctrs::field(lsd, "l")
   s <- -vctrs::field(lsd, "s")
@@ -91,7 +93,7 @@ deb_normalize <- function(x, ...) {
   UseMethod("deb_normalize")
 }
 
-# Default
+# a) Default
 #' @rdname normalize
 #' @export
 deb_normalize.default <- function(x, ...) {
@@ -99,7 +101,7 @@ deb_normalize.default <- function(x, ...) {
        "`x` must be a <deb_lsd> vector or a numeric vector of length 3.")
 }
 
-# deb_lsd
+# b) deb_lsd
 #' @rdname normalize
 #' @export
 deb_normalize.deb_lsd <- function(x, ...) {
@@ -109,7 +111,7 @@ deb_normalize.deb_lsd <- function(x, ...) {
           lsd_normalize(decimals))
 }
 
-# numeric
+# c) numeric: provides a quick way to normalize a single value
 #' @rdname normalize
 #' @export
 deb_normalize.numeric <- function(x, bases = c(20, 12), ...) {

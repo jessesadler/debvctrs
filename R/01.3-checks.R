@@ -3,7 +3,7 @@
 
 # lsd checks --------------------------------------------------------------
 
-# Informative error messages for values in deb_lsd
+# Informative error messages for l, s, and d values in deb_lsd
 lsd_check <- function(l, s, d) {
   # Check that l, s, and d are numeric
   if (!all(rlang::are_na(l))) {
