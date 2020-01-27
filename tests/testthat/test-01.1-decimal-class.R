@@ -5,17 +5,16 @@ y <- deb_decimal(x)
 
 test_that("new_decimal works", {
   expect_equal(length(new_decimal()), 0)
-  expect_equal(class(new_decimal()), c("deb_decimal", "vctrs_vctr"))
+  expect_equal(class(new_decimal()), c("deb_decimal", "vctrs_vctr", "double"))
   expect_equal(length(new_decimal(x)), 3)
 })
 
 test_that("deb_decimal works", {
   # Prototype
   expect_equal(length(deb_decimal()), 0)
-  expect_equal(class(deb_decimal()), c("deb_decimal", "vctrs_vctr"))
+  expect_equal(class(deb_decimal()), c("deb_decimal", "vctrs_vctr", "double"))
   # Basics
-  expect_equal(class(deb_decimal(x)),
-               c("deb_decimal", "vctrs_vctr"))
+  expect_equal(class(deb_decimal(x)), c("deb_decimal", "vctrs_vctr", "double"))
   expect_true(deb_is_decimal(y))
   expect_false(deb_is_decimal(3))
   # NA
