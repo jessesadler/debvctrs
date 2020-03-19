@@ -24,7 +24,7 @@ deb_convert_bases <- function(x, to) {
 # Default
 deb_convert_bases.default <- function(x, to) {
   stop(call. = FALSE,
-       "`x` must be a <deb_lsd>  or <deb_decimal> vector.")
+       "`x` must be a <deb_lsd> or <deb_decimal> vector.")
 }
 
 # 1. deb_lsd()

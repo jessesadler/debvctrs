@@ -34,7 +34,7 @@ new_decimal <- function(x = double(),
 
   # 3. Create deb_decimal class
   #    inherit_base_type = TRUE adds double to vector of classes
-  vctrs::new_vctr(x,
+  vctrs::new_vctr(.data = x,
                   unit = unit,
                   bases = bases,
                   class = "deb_decimal",
