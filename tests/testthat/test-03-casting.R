@@ -131,8 +131,8 @@ test_that("assignment subsetting works", {
   expect_equal(dec, dec3)
   dec[[1]] <- 1.1125
   expect_equal(dec, dec3)
-  # dec[[1]] <- NA
-  # expect_equal(dec, dec)
+  dec[[1]] <- NA
+  expect_equal(dec, dec)
 
   # deb_decimal with different units
   dec[[1]] <- dec_s

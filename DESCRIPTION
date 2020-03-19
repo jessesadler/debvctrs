@@ -16,7 +16,7 @@ RoxygenNote: 7.1.0
 Imports: 
     methods,
     rlang (>= 0.4.0),
-    vctrs (>= 0.2.0),
+    vctrs (>= 0.2.4),
     zeallot
 Suggests: 
     testthat (>= 2.1.0)
