@@ -54,7 +54,7 @@ new_lsd <- function(l = double(),
 #' @export
 
 # Helper steps
-# 1. Define function
+# 1. Define arguments
 # 2. Checks: see 01.3-check.R
 # 3. Cast to allow compatible types for each argument
 #    Cast l, s, and d to double() using unpacking assignment from zeallot
