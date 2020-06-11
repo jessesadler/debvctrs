@@ -14,19 +14,19 @@ should_be_int <- function(x, tol = .Machine$double.eps^0.5) {
 
 # Deal with any decimals in l and s units
 decimal_check <- function(lsd) {
-  l <- vctrs::field(lsd, "l")
-  s <- vctrs::field(lsd, "s")
-  d <- vctrs::field(lsd, "d")
+  l <- field(lsd, "l")
+  s <- field(lsd, "s")
+  d <- field(lsd, "d")
 
-  vctrs::field(lsd, "l") <- trunc(l)
+  field(lsd, "l") <- trunc(l)
   temp_s <- s + (l - trunc(l)) * deb_bases(lsd)[[1]]
-  vctrs::field(lsd, "s") <- trunc(temp_s)
-  vctrs::field(lsd, "d") <- d + (temp_s - trunc(temp_s)) * deb_bases(lsd)[[2]]
+  field(lsd, "s") <- trunc(temp_s)
+  field(lsd, "d") <- d + (temp_s - trunc(temp_s)) * deb_bases(lsd)[[2]]
 
   # Deal with floating point problems potentially introduced by the above
-  vctrs::field(lsd, "d") <- if_else(should_be_int(vctrs::field(lsd, "d")),
-                                    round(vctrs::field(lsd, "d")),
-                                    vctrs::field(lsd, "d"))
+  field(lsd, "d") <- if_else(should_be_int(field(lsd, "d")),
+                             round(field(lsd, "d")),
+                             field(lsd, "d"))
 
   lsd
 }
@@ -38,34 +38,34 @@ decimal_check <- function(lsd) {
 
 # a) Is lsd value positive or negative?
 is_negative <- function(x) {
-  vctrs::field(x, "l") + vctrs::field(x, "s") /
-    deb_bases(x)[[1]] + vctrs::field(x, "d") / prod(deb_bases(x)) < 0
+  field(x, "l") + field(x, "s") /
+    deb_bases(x)[[1]] + field(x, "d") / prod(deb_bases(x)) < 0
 }
 
 # b) Normalization for positive lsd values
 lsd_normalize <- function(lsd) {
-  l <- vctrs::field(lsd, "l")
-  s <- vctrs::field(lsd, "s")
-  d <- vctrs::field(lsd, "d")
+  l <- field(lsd, "l")
+  s <- field(lsd, "s")
+  d <- field(lsd, "d")
   bases <- deb_bases(lsd)
 
-  vctrs::field(lsd, "l") <- l + ((s + d %/% bases[[2]]) %/% bases[[1]])
-  vctrs::field(lsd, "s") <- (s + d %/% bases[[2]]) %% bases[[1]]
-  vctrs::field(lsd, "d") <- d %% bases[[2]]
+  field(lsd, "l") <- l + ((s + d %/% bases[[2]]) %/% bases[[1]])
+  field(lsd, "s") <- (s + d %/% bases[[2]]) %% bases[[1]]
+  field(lsd, "d") <- d %% bases[[2]]
 
   lsd
 }
 
 # c) Normalization for negative lsd values
 lsd_normalize_neg <- function(lsd) {
-  l <- -vctrs::field(lsd, "l")
-  s <- -vctrs::field(lsd, "s")
-  d <- -vctrs::field(lsd, "d")
+  l <- -field(lsd, "l")
+  s <- -field(lsd, "s")
+  d <- -field(lsd, "d")
   bases <- deb_bases(lsd)
 
-  vctrs::field(lsd, "l") <- l + ((s + d %/% bases[[2]]) %/% bases[[1]])
-  vctrs::field(lsd, "s") <- (s + d %/% bases[[2]]) %% bases[[1]]
-  vctrs::field(lsd, "d") <- d %% bases[[2]]
+  field(lsd, "l") <- l + ((s + d %/% bases[[2]]) %/% bases[[1]])
+  field(lsd, "s") <- (s + d %/% bases[[2]]) %% bases[[1]]
+  field(lsd, "d") <- d %% bases[[2]]
 
   -lsd
 }
@@ -115,7 +115,7 @@ deb_normalize.deb_lsd <- function(x, ...) {
 #' @rdname normalize
 #' @export
 deb_normalize.numeric <- function(x, bases = c(20, 12), ...) {
-  if (vctrs::vec_size(x) != 3L) {
+  if (vec_size(x) != 3L) {
     stop(call. = FALSE, "`x` must be a numeric vector of length 3.")
   }
 

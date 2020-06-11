@@ -23,15 +23,15 @@ NULL
 #' @rdname mathematics
 #' @export
 sum.deb_lsd <- function(..., na.rm = FALSE) {
-  x <- vctrs::vec_c(...)
+  x <- vec_c(...)
   # Remove NA if na.rm is TRUE
   if (na.rm == TRUE) {
     x <- x[!is.na(x)]
   }
 
-  ret <- new_lsd(sum(vctrs::field(x, "l"), na.rm = na.rm),
-                 sum(vctrs::field(x, "s"), na.rm = na.rm),
-                 sum(vctrs::field(x, "d"), na.rm = na.rm),
+  ret <- new_lsd(sum(field(x, "l"), na.rm = na.rm),
+                 sum(field(x, "s"), na.rm = na.rm),
+                 sum(field(x, "d"), na.rm = na.rm),
                  bases = deb_bases(x))
 
   deb_normalize(ret)
@@ -46,7 +46,7 @@ mean.deb_lsd <- function(x, ..., na.rm = FALSE) {
   if (na.rm == TRUE) {
     x <- x[!is.na(x)]
   }
-  sum(x) / vctrs::vec_size(x)
+  sum(x) / vec_size(x)
 }
 
 # 3. abs ------------------------------------------------------------------
@@ -63,9 +63,9 @@ abs.deb_lsd <- function(x) {
 #' @rdname mathematics
 #' @export
 cumsum.deb_lsd <- function(x) {
-  ret <- new_lsd(cumsum(vctrs::field(x, "l")),
-                 cumsum(vctrs::field(x, "s")),
-                 cumsum(vctrs::field(x, "d")),
+  ret <- new_lsd(cumsum(field(x, "l")),
+                 cumsum(field(x, "s")),
+                 cumsum(field(x, "d")),
                  bases = deb_bases(x))
 
   deb_normalize(ret)
@@ -90,14 +90,14 @@ cummax.deb_lsd <- function(x) {
 #' @export
 round.deb_lsd <- function(x, digits = 0) {
   x <- decimal_check(x)
-  vctrs::field(x, "d") <- round(vctrs::field(x, "d"), digits = digits)
+  field(x, "d") <- round(field(x, "d"), digits = digits)
   deb_normalize(x)
 }
 
 #' @rdname mathematics
 #' @export
 signif.deb_lsd <- function(x, digits = 6) {
-  vctrs::field(x, "d") <- signif(vctrs::field(x, "d"), digits = digits)
+  field(x, "d") <- signif(field(x, "d"), digits = digits)
   deb_normalize(x)
 }
 
@@ -105,7 +105,7 @@ signif.deb_lsd <- function(x, digits = 6) {
 #' @export
 ceiling.deb_lsd <- function(x) {
   x <- decimal_check(x)
-  vctrs::field(x, "d") <- ceiling(vctrs::field(x, "d"))
+  field(x, "d") <- ceiling(field(x, "d"))
   deb_normalize(x)
 }
 
@@ -113,7 +113,7 @@ ceiling.deb_lsd <- function(x) {
 #' @export
 floor.deb_lsd <- function(x) {
   x <- decimal_check(x)
-  vctrs::field(x, "d") <- floor(vctrs::field(x, "d"))
+  field(x, "d") <- floor(field(x, "d"))
   deb_normalize(x)
 }
 
@@ -121,18 +121,14 @@ floor.deb_lsd <- function(x) {
 #' @export
 trunc.deb_lsd <- function(x, ...) {
   x <- decimal_check(x)
-  vctrs::field(x, "d") <- trunc(vctrs::field(x, "d"))
+  field(x, "d") <- trunc(field(x, "d"))
   deb_normalize(x)
 }
 
 
-
 # B) Error message for unimplemented functions ----------------------------
 
-#' @rdname vctrs-compat
-#' @method vec_math deb_lsd
 #' @export
-#' @export vec_math.deb_lsd
 vec_math.deb_lsd <- function(.fn, .x, ...) {
   stop(call. = FALSE,
        paste0("`", .fn, ".", class(.x)[[1]], "()` not implemented."))

@@ -10,7 +10,7 @@
 #' Internal constructor to create deb_lsd type
 #'
 #' Asserts that `l`, `s` and `d` are of type `double()` and that `bases` is an
-#' `integer()` of length 2. Creates the object through `vctrs::new_rcrd()`.
+#' `integer()` of length 2. Creates the object through `new_rcrd()`.
 #'
 #' @keywords internal
 
@@ -27,15 +27,15 @@ new_lsd <- function(l = double(),
                     bases = c(20L, 12L)) {
 
   # 2. Checks
-  vctrs::vec_assert(l, ptype = double())
-  vctrs::vec_assert(s, ptype = double())
-  vctrs::vec_assert(d, ptype = double())
-  vctrs::vec_assert(bases, ptype = integer(), size = 2)
+  vec_assert(l, ptype = double())
+  vec_assert(s, ptype = double())
+  vec_assert(d, ptype = double())
+  vec_assert(bases, ptype = integer(), size = 2)
 
   # 3. Create deb_lsd class
-  vctrs::new_rcrd(list(l = l, s = s, d = d),
-                  bases = bases,
-                  class = "deb_lsd")
+  new_rcrd(list(l = l, s = s, d = d),
+           bases = bases,
+           class = "deb_lsd")
 }
 
 
@@ -73,11 +73,11 @@ deb_lsd <- function(l = double(),
   bases_check(bases)
 
   # 3. Casts for compatible types
-  c(l, s, d) %<-% vctrs::vec_cast_common(l, s, d, .to = double())
-  bases <- vctrs::vec_cast(bases, to = integer())
+  c(l, s, d) %<-% vec_cast_common(l, s, d, .to = double())
+  bases <- vec_cast(bases, to = integer())
 
   # 4. Enforce recycling rules
-  c(l, s, d) %<-% vctrs::vec_recycle_common(l, s, d)
+  c(l, s, d) %<-% vec_recycle_common(l, s, d)
 
   # 5. Create deb_lsd vector
   new_lsd(l = l, s = s, d = d, bases = bases)
@@ -86,10 +86,10 @@ deb_lsd <- function(l = double(),
 
 # 3. Formally declare S3 class --------------------------------------------
 
-# Must add methods to Imports in DESCRIPTION
+# Must add methods to Imports in DESCRIPTION if not already done
+# usethis::use_package("methods")
 
-#' @importFrom methods setOldClass
-setOldClass(c("deb_lsd", "vctrs_rcrd", "vctrs_vctr"))
+methods::setOldClass(c("deb_lsd", "vctrs_rcrd", "vctrs_vctr"))
 
 
 # 4. Attribute access -----------------------------------------------------
@@ -116,9 +116,9 @@ deb_is_lsd <- function(x) inherits(x, "deb_lsd")
 
 #' @export
 format.deb_lsd <- function(x, ...) {
-  l <- round(vctrs::field(x, "l"), 3) # only print 3 decimals
-  s <- round(vctrs::field(x, "s"), 3)
-  d <- round(vctrs::field(x, "d"), 3)
+  l <- round(field(x, "l"), 3) # only print 3 decimals
+  s <- round(field(x, "s"), 3)
+  d <- round(field(x, "d"), 3)
 
   out <- paste0(l, ":", s, "s:", d, "d")
   out[is.na(l) | is.na(s) | is.na(d)] <- NA # Format NAs

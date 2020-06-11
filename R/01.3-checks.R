@@ -53,7 +53,7 @@ is_natural <- function(x, tol = .Machine$double.eps^0.5) {
 
 # Informative error messages for bases attribute
 bases_check <- function(bases) {
-  if (!is.numeric(bases) || vctrs::vec_size(bases) != 2L || is.null(bases)) {
+  if (!is.numeric(bases) || vec_size(bases) != 2L || is.null(bases)) {
     stop(call. = FALSE, "`bases` must be a numeric vector of length 2.")
   }
   if (any(rlang::are_na(bases))) {

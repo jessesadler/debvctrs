@@ -9,6 +9,6 @@ new_decimal(x = double(), unit = c("l", "s", "d"), bases = c(20L, 12L))
 \description{
 Asserts that \code{x} is a \code{double()}, that \code{unit} is "l", "s", or "d", and
 that \code{bases} is an \code{integer()} of length 2. Creates the object through
-\code{vctrs::new_vctr()}.
+\code{new_vctr()}.
 }
 \keyword{internal}

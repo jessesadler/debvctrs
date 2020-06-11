@@ -1,5 +1,7 @@
 ## Test casting with deb_lsd and deb_decimal ##
 
+library(vctrs)
+
 lsd <- deb_lsd(c(NA, 2, 3), c(NA, 4, 5), c(NA, 6, 9))
 lsd1 <- deb_lsd(1, 2, 3)
 lsd_alt <- deb_lsd(1, 25, 4, bases = c(50, 16))
@@ -23,69 +25,69 @@ bases_error <- paste0("`bases` attributes must be equal to combine ",
 
 test_that("vec_cast works for deb_lsd", {
   # deb_lsd to deb_lsd: checks for equal bases
-  expect_equal(vctrs::vec_cast(lsd, deb_lsd()), lsd)
-  expect_equal(vctrs::vec_cast(lsd_alt, deb_lsd(bases = c(50, 16))), lsd_alt)
-  expect_error(vctrs::vec_cast(lsd_alt, deb_lsd()),
+  expect_equal(vec_cast(lsd, deb_lsd()), lsd)
+  expect_equal(vec_cast(lsd_alt, deb_lsd(bases = c(50, 16))), lsd_alt)
+  expect_error(vec_cast(lsd_alt, deb_lsd()),
                bases_error)
 
   # deb_lsd with double and integer
-  expect_equal(vctrs::vec_cast(lsd1, numeric()), 1.1125)
-  expect_equal(vctrs::vec_cast(1.1125, deb_lsd()), lsd1)
-  expect_equal(vctrs::vec_cast(1:3, deb_lsd()), deb_lsd(1:3, 0, 0))
-  expect_error(vctrs::vec_cast(lsd, integer()))
+  expect_equal(vec_cast(lsd1, numeric()), 1.1125)
+  expect_equal(vec_cast(1.1125, deb_lsd()), lsd1)
+  expect_equal(vec_cast(1:3, deb_lsd()), deb_lsd(1:3, 0, 0))
+  expect_error(vec_cast(lsd, integer()))
   # deb_lsd to character
-  expect_equal(vctrs::vec_cast(lsd, character()), c(NA, "2:4s:6d", "3:5s:9d"))
+  expect_equal(vec_cast(lsd, character()), c(NA, "2:4s:6d", "3:5s:9d"))
   # NA and incompatible cast from boilerplate
-  expect_equal(vctrs::vec_cast(NA, deb_lsd()), deb_lsd(NA, NA, NA))
-  expect_error(vctrs::vec_cast(factor("hello"), deb_lsd()))
+  expect_equal(vec_cast(NA, deb_lsd()), deb_lsd(NA, NA, NA))
+  expect_error(vec_cast(factor("hello"), deb_lsd()))
 })
 
 test_that("vec_cast works for deb_decimal", {
   # deb_decimal to deb_decimal: checks for equal bases
-  expect_equal(vctrs::vec_cast(dec, deb_decimal()), dec)
-  expect_equal(vctrs::vec_cast(dec_bases, deb_decimal(bases = c(50, 16))),
+  expect_equal(vec_cast(dec, deb_decimal()), dec)
+  expect_equal(vec_cast(dec_bases, deb_decimal(bases = c(50, 16))),
                dec_bases)
-  expect_equal(vctrs::vec_cast(dec_s, deb_decimal(unit = "s")), dec_s)
-  expect_equal(vctrs::vec_cast(dec_d, deb_decimal(unit = "d")), dec_d)
-  expect_error(vctrs::vec_cast(dec_bases, deb_decimal()), bases_error)
+  expect_equal(vec_cast(dec_s, deb_decimal(unit = "s")), dec_s)
+  expect_equal(vec_cast(dec_d, deb_decimal(unit = "d")), dec_d)
+  expect_error(vec_cast(dec_bases, deb_decimal()), bases_error)
   # Convert units: see also test-conversion
-  expect_equal(vctrs::vec_cast(dec_l, deb_decimal(unit = "s")), dec_s)
-  expect_equal(vctrs::vec_cast(dec_l, deb_decimal(unit = "d")), dec_d)
-  expect_equal(vctrs::vec_cast(dec_s, deb_decimal()), dec_l)
-  expect_equal(vctrs::vec_cast(dec_s, deb_decimal(unit = "d")), dec_d)
-  expect_equal(vctrs::vec_cast(dec_d, deb_decimal()), dec_l)
-  expect_equal(vctrs::vec_cast(dec_d, deb_decimal(unit = "s")), dec_s)
+  expect_equal(vec_cast(dec_l, deb_decimal(unit = "s")), dec_s)
+  expect_equal(vec_cast(dec_l, deb_decimal(unit = "d")), dec_d)
+  expect_equal(vec_cast(dec_s, deb_decimal()), dec_l)
+  expect_equal(vec_cast(dec_s, deb_decimal(unit = "d")), dec_d)
+  expect_equal(vec_cast(dec_d, deb_decimal()), dec_l)
+  expect_equal(vec_cast(dec_d, deb_decimal(unit = "s")), dec_s)
 
   # deb_decimal with double and integer
-  expect_equal(vctrs::vec_cast(dec, numeric()), c(NA, 2.225, 3.2875))
-  expect_equal(vctrs::vec_cast(1.1125, deb_decimal()), dec_l)
-  expect_equal(vctrs::vec_cast(1:3, deb_decimal()), deb_decimal(1:3))
-  expect_error(vctrs::vec_cast(dec, integer()))
+  expect_equal(vec_cast(dec, numeric()), c(NA, 2.225, 3.2875))
+  expect_equal(vec_cast(1.1125, deb_decimal()), dec_l)
+  expect_equal(vec_cast(1:3, deb_decimal()), deb_decimal(1:3))
+  expect_error(vec_cast(dec, integer()))
   # deb_lsd to character
-  expect_equal(vctrs::vec_cast(dec, character()), c(NA, "2.225", "3.2875"))
+  expect_equal(vec_cast(dec, character()), c(NA, "2.225", "3.2875"))
   # NA and incompatible cast from boilerplate
-  expect_equal(vctrs::vec_cast(NA, deb_decimal()), deb_decimal(NA))
-  expect_error(vctrs::vec_cast(factor("hello"), deb_decimal()))
+  expect_equal(vec_cast(NA, deb_decimal()), deb_decimal(NA))
+  expect_error(vec_cast(factor("hello"), deb_decimal()))
 })
 
 test_that("vec_cast works with both deb_lsd and deb_decimal", {
   # Successful
-  expect_equal(vctrs::vec_cast(dec, deb_lsd()), lsd)
-  expect_equal(vctrs::vec_cast(lsd, deb_decimal()), dec)
+  expect_equal(vec_cast(dec, deb_lsd()), lsd)
+  expect_equal(vec_cast(lsd, deb_decimal()), dec)
   # Units dealt with correctly
-  expect_equal(vctrs::vec_cast(dec_s, deb_lsd()), lsd1)
+  expect_equal(vec_cast(dec_s, deb_lsd()), lsd1)
   # Alt bases and units work if provided to prototype
-  expect_equal(vctrs::vec_cast(dec_bases, deb_lsd(bases = c(50, 16))),
+  expect_equal(vec_cast(dec_bases, deb_lsd(bases = c(50, 16))),
                lsd_alt)
-  expect_equal(vctrs::vec_cast(lsd_alt, deb_decimal(bases = c(50, 16))),
+  expect_equal(vec_cast(lsd_alt, deb_decimal(bases = c(50, 16))),
                dec_bases)
-  expect_equal(vctrs::vec_cast(dec_s, deb_decimal(unit = "s")), dec_s)
+  expect_equal(vec_cast(dec_s, deb_decimal(unit = "s")), dec_s)
 
   # Errors when x has different bases or units than default if not changed
-  expect_error(vctrs::vec_cast(lsd_alt, deb_lsd()), bases_error)
-  expect_error(vctrs::vec_cast(dec_bases, deb_decimal()), bases_error)
-  expect_error(vctrs::vec_cast(dec_bases, deb_lsd()), bases_error)
-  expect_error(vctrs::vec_cast(lsd_alt, deb_decimal()), bases_error)
+  expect_error(vec_cast(lsd_alt, deb_lsd()), bases_error)
+  expect_error(vec_cast(dec_bases, deb_decimal()), bases_error)
+  expect_error(vec_cast(dec_bases, deb_lsd()), bases_error)
+  expect_error(vec_cast(lsd_alt, deb_decimal()), bases_error)
 })
 
 

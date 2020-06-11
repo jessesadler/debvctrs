@@ -8,6 +8,6 @@ new_lsd(l = double(), s = double(), d = double(), bases = c(20L, 12L))
 }
 \description{
 Asserts that \code{l}, \code{s} and \code{d} are of type \code{double()} and that \code{bases} is an
-\code{integer()} of length 2. Creates the object through \code{vctrs::new_rcrd()}.
+\code{integer()} of length 2. Creates the object through \code{new_rcrd()}.
 }
 \keyword{internal}

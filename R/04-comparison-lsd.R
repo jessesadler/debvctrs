@@ -3,21 +3,25 @@
 # deb_decimal() gets both equality and comparison for free
 # because it is based on double()
 
+#' Equality and comparison
+#' @param x A deb_lsd object.
+#' @param ... Arguments passed on to further methods.
+#' @name comparison
+NULL
+
 # A) deb_lsd equality -----------------------------------------------------
 
 # Normalize x and then create data frame for equality check
 # Enables ==, !=, unique(), etc.
 # Example of equality: £1 0s. 0d. is equal to £0 20s. 0d.
 
-#' @rdname vctrs-compat
-#' @method vec_proxy_equal deb_lsd
+#' @rdname comparison
 #' @export
-#' @export vec_proxy_equal.deb_lsd
 vec_proxy_equal.deb_lsd <- function(x, ...) {
   x <- deb_normalize(x)
-  data.frame(l = vctrs::field(x, "l"),
-             s = vctrs::field(x, "s"),
-             d = vctrs::field(x, "d"))
+  data.frame(l = field(x, "l"),
+             s = field(x, "s"),
+             d = field(x, "d"))
 }
 
 
@@ -26,11 +30,9 @@ vec_proxy_equal.deb_lsd <- function(x, ...) {
 # Convert to double() to do comparison
 # Enables <, <=, >=, >, etc.
 
-#' @rdname vctrs-compat
-#' @method vec_proxy_compare deb_lsd
+#' @rdname comparison
 #' @export
-#' @export vec_proxy_compare.deb_lsd
 vec_proxy_compare.deb_lsd <- function(x, ...) {
-  vctrs::field(x, "l") + vctrs::field(x, "s") /
-    deb_bases(x)[[1]] + vctrs::field(x, "d") / prod(deb_bases(x))
+  field(x, "l") + field(x, "s") /
+    deb_bases(x)[[1]] + field(x, "d") / prod(deb_bases(x))
 }
