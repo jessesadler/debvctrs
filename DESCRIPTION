@@ -1,6 +1,6 @@
 Package: debvctrs
 Title: Tutorial for building S3 vectors with vctrs
-Version: 0.1.0
+Version: 0.1.9000
 Authors@R: person("Jesse", "Sadler",
     email = "jsadler@ucla.edu",
     role = c("aut", "cre"),
