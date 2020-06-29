@@ -5,7 +5,7 @@
 \alias{deb_convert_bases}
 \alias{deb_convert_bases.deb_lsd}
 \alias{deb_convert_bases.deb_decimal}
-\title{Convert bases of \code{deb_lsd} and \code{deb_decimal} objects}
+\title{Convert bases of \code{deb_lsd} and \code{deb_decimal} vectors}
 \usage{
 deb_convert_bases(x, to)
 
@@ -21,5 +21,5 @@ solidus and denarius units to be converted to.}
 }
 \description{
 \code{deb_convert_bases()} is the only way to change the bases of the solidus
-and denarius units associated with objects of class \code{deb_lsd} or \code{deb_lsd}.
+and denarius units associated with \code{deb_lsd} or \code{deb_lsd}types.
 }

@@ -19,11 +19,11 @@ dec2 <- deb_decimal(c(1.8375, NA, 5.225, 3.2875, 1.1125))
 dec3 <- deb_decimal(c(1.8375, 5.225, 3.2875, 1.1125))
 
 bases_error <- paste0("`bases` attributes must be equal to combine ",
-                      "<deb_lsd> or <deb_decimal> objects.")
+                      "<deb_lsd> or <deb_decimal> vectors.")
 
 
 # deb_lsd arithmetic operators --------------------------------------------
-test_that("Arithmetic operators work with two deb_lsd objects", {
+test_that("Arithmetic operators work with two deb_lsd vectors", {
   # plus
   expect_equal(lsd1 + lsd2, deb_lsd(7, 3, 5))
   expect_equal(lsd_bases + deb_lsd(2, 10, 5, bases2),
@@ -55,7 +55,7 @@ test_that("Arithmetic operators work with deb_lsd and numeric", {
 
 # deb_decimal arithmetic operators ----------------------------------------
 
-test_that("Arithmetic operators work with two deb_decimal objects", {
+test_that("Arithmetic operators work with two deb_decimal vectors", {
   expect_equal(dec_l + deb_decimal(1.5), deb_decimal(3.3375))
   expect_equal(dec_l - deb_decimal(1.5), deb_decimal(0.3375))
   expect_equal(deb_decimal(3.25) / deb_decimal(6.5), 0.5)

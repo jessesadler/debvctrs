@@ -6,7 +6,11 @@
 
 # 1. deb_decimal and deb_decimal ------------------------------------------
 
-# Hierarchy: d -> s -> l
+#' Coercion hierarchy for deb_decimal units
+#'
+#' Hierarchy: d -> s -> l
+#' @keywords internal
+
 unit_hierarchy <- function(x, y) {
   if (identical(deb_unit(x), deb_unit(y))) {
     deb_unit(x)

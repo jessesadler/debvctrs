@@ -3,7 +3,7 @@
 # deb_decimal() gets all this for free because it is based on double()
 # Choose which functions to implement and which to not implement.
 
-#' Mathematical functions with deb_lsd objects
+#' Mathematical functions with deb_lsd vectors
 #'
 #' @param x An object of class `deb_lsd`.
 #' @param ... `deb_lsd` vectors in `sum()` and arguments passed on to
@@ -28,12 +28,12 @@ sum.deb_lsd <- function(..., na.rm = FALSE) {
   if (na.rm == TRUE) {
     x <- x[!is.na(x)]
   }
-
+  # Separate sum for each unit in a newly created deb_lsd vector
   ret <- new_lsd(sum(field(x, "l"), na.rm = na.rm),
                  sum(field(x, "s"), na.rm = na.rm),
                  sum(field(x, "d"), na.rm = na.rm),
                  bases = deb_bases(x))
-
+  # Normalize the summed units
   deb_normalize(ret)
 }
 
@@ -63,6 +63,7 @@ abs.deb_lsd <- function(x) {
 #' @rdname mathematics
 #' @export
 cumsum.deb_lsd <- function(x) {
+  # Same approach as sum.deb_lsd
   ret <- new_lsd(cumsum(field(x, "l")),
                  cumsum(field(x, "s")),
                  cumsum(field(x, "d")),
@@ -73,12 +74,14 @@ cumsum.deb_lsd <- function(x) {
 
 #' @export
 cummin.deb_lsd <- function(x) {
+  # Convert to deb_as_decimal and then perform cummin
   dec <- deb_as_decimal(x)
   deb_as_lsd(cummin(dec))
 }
 
 #' @export
 cummax.deb_lsd <- function(x) {
+  # Convert to deb_as_decimal and then perform cummin
   dec <- deb_as_decimal(x)
   deb_as_lsd(cummax(dec))
 }
@@ -89,8 +92,11 @@ cummax.deb_lsd <- function(x) {
 #' @rdname mathematics
 #' @export
 round.deb_lsd <- function(x, digits = 0) {
+  # Move any decimals to pence unit
   x <- decimal_check(x)
+  # Round the pence unit
   field(x, "d") <- round(field(x, "d"), digits = digits)
+  # Normalize the value
   deb_normalize(x)
 }
 

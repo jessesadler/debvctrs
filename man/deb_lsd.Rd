@@ -21,3 +21,10 @@ conforms to the most widely used system of 1 pound = 20 shillings and
 \description{
 User-facing function to create deb_lsd vector.
 }
+\examples{
+
+deb_lsd(5, 3, 8)
+deb_lsd(l = c(10, 8, 5),
+        s = c(6, 13, 8),
+        d = c(8, 4, 10))
+}

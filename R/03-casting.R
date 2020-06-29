@@ -134,6 +134,11 @@ vec_cast.character.deb_lsd <- function(x, to, ...) {
 
 # 1. deb_decimal to deb_lsd
 
+#' deb_decimal to deb_lsd utility
+#'
+#' Find unit and normalize
+#' @keywords internal
+
 decimal_to_lsd <- function(x) {
   bases <- deb_bases(x)
   unit <- deb_unit(x)
@@ -156,6 +161,11 @@ vec_cast.deb_lsd.deb_decimal <- function(x, to, ...) {
 }
 
 # 2. deb_lsd to deb_decimal
+
+#' deb_lsd to deb_decimal utility
+#'
+#' Arithmetic based on the unit
+#' @keywords internal
 
 lsd_to_decimal <- function(x, to) {
   l <- field(x, "l")

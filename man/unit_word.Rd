@@ -6,9 +6,6 @@
 \usage{
 unit_word(x)
 }
-\arguments{
-\item{x}{A deb_decimal object.}
-}
 \description{
 Print full name of unit in footer
 }

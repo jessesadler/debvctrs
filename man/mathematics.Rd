@@ -10,7 +10,7 @@
 \alias{ceiling.deb_lsd}
 \alias{floor.deb_lsd}
 \alias{trunc.deb_lsd}
-\title{Mathematical functions with deb_lsd objects}
+\title{Mathematical functions with deb_lsd vectors}
 \usage{
 \method{sum}{deb_lsd}(..., na.rm = FALSE)
 
@@ -40,5 +40,5 @@ further methods in \code{mean()}.}
 (\code{round()}) or significant digits (\code{signif()}) to be used.}
 }
 \description{
-Mathematical functions with deb_lsd objects
+Mathematical functions with deb_lsd vectors
 }

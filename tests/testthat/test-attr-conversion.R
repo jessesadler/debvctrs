@@ -12,7 +12,7 @@ dec_db2 <- deb_decimal(5120, unit = "d", bases = bases2)
 
 # Bases conversion --------------------------------------------------------
 
-test_that("Bases conversion works with deb_lsd objects", {
+test_that("Bases conversion works with deb_lsd vectors", {
   expect_equal(deb_convert_bases(lsd1, to = c(20, 12)), lsd1)
   expect_equal(deb_convert_bases(lsd1, to = bases2), lsd2)
   expect_equal(deb_convert_bases(lsd2, to = c(20, 12)), lsd1)
@@ -21,7 +21,7 @@ test_that("Bases conversion works with deb_lsd objects", {
                "`x` must be a <deb_lsd> or <deb_decimal> vector.")
 })
 
-test_that("Bases conversion works with deb_decimal objects", {
+test_that("Bases conversion works with deb_decimal vectors", {
   expect_equal(deb_convert_bases(dec_l, to = c(20, 12)), dec_l)
   expect_equal(deb_convert_bases(dec_l, to = bases2), dec_lb2)
   expect_equal(deb_convert_bases(dec_s, to = bases2), dec_sb2)

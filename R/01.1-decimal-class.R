@@ -2,9 +2,9 @@
 
 # The deb_decimal class is based on a double vector.
 # It has two attributes:
-# 1. bases attribute determines the bases of shillings and pence units.
-# 2. unit attribute determines whether the unit of the value is
-#    pounds (libra), shillings (solidus), or pence (denarius).
+#   1. bases attribute determines the bases of shillings and pence units.
+#   2. unit attribute determines whether the unit of the value is
+#      pounds (libra), shillings (solidus), or pence (denarius).
 
 # 1. Constructor ----------------------------------------------------------
 
@@ -14,6 +14,7 @@
 #' that `bases` is an `integer()` of length 2. Creates the object through
 #' `new_vctr()`.
 #'
+#' @return A vector of class `deb_decimal`.
 #' @keywords internal
 
 # Constructor steps overview
@@ -54,6 +55,13 @@ new_decimal <- function(x = double(),
 #'   or `"d"` (denarius).
 #' @inheritParams deb_lsd
 #' @export
+#' @examples
+#'
+#' deb_decimal(c(5.25, 3.825, 8.5))
+#'
+#' # Set the unit of the deb_decimal vector
+#' deb_decimal(c(105, 76.5, 170), unit = "s")
+#' deb_decimal(c(1260, 918, 240), unit = "d")
 
 # Helper steps
 # 1. Define function
@@ -113,7 +121,6 @@ deb_is_decimal <- function(x) inherits(x, "deb_decimal")
 
 #' Print full name of unit in footer
 #'
-#' @param x A deb_decimal object.
 #' @keywords internal
 
 unit_word <- function(x) {
@@ -127,7 +134,11 @@ unit_word <- function(x) {
   unit
 }
 
+#' Print footer with unit and bases
+#'
+#' @keywords internal
 #' @export
+
 obj_print_footer.deb_decimal <- function(x, ...) {
   # Use full name of unit
   unit <- unit_word(x)
@@ -141,7 +152,11 @@ obj_print_footer.deb_decimal <- function(x, ...) {
 # 7. Abbreviated name type ------------------------------------------------
 # Used in column labels in tibble and str()
 
+#' Abbreviated name for tibble columns
+#'
+#' @keywords internal
 #' @export
+
 vec_ptype_abbr.deb_decimal <- function(x) {
   paste0(attr(x, "unit"), "[",
          attr(x, "bases")[[1]], "s:",

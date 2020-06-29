@@ -7,12 +7,24 @@
 
 # 1. Convert l and s units to whole numbers -----------------------------
 
-# Function to help deal with floating point problems
+#' Deal with floating point problems
+#'
+#' Should the value be a whole number or should it have a decimal value.
+#' Used in `decimal_check()`.
+#' @keywords internal
+
 should_be_int <- function(x, tol = .Machine$double.eps^0.5) {
   abs(x - round(x)) < tol
 }
 
-# Deal with any decimals in l and s units
+#' Check for non-whole numbers in libra and solidus units
+#'
+#' Move any decimals in libra and solidus units to the denarius unit.
+#' The function uses the utility `should_be_int()` to deal with floating
+#' point problems.
+#'
+#' @keywords internal
+
 decimal_check <- function(lsd) {
   l <- field(lsd, "l")
   s <- field(lsd, "s")
@@ -37,12 +49,23 @@ decimal_check <- function(lsd) {
 # Different parts of the normalization function
 
 # a) Is lsd value positive or negative?
+
+#' Check whether lsd value is positive or negative
+#' @keywords internal
+
 is_negative <- function(x) {
   field(x, "l") + field(x, "s") /
     deb_bases(x)[[1]] + field(x, "d") / prod(deb_bases(x)) < 0
 }
 
 # b) Normalization for positive lsd values
+
+#' Normalization path for positive values
+#'
+#' Separate normalization functions for positive and negative values to be
+#' used in `if_else()`. Making them functions simplifies the process.
+#' @keywords internal
+
 lsd_normalize <- function(lsd) {
   l <- field(lsd, "l")
   s <- field(lsd, "s")
@@ -57,6 +80,12 @@ lsd_normalize <- function(lsd) {
 }
 
 # c) Normalization for negative lsd values
+
+#' Normalization path for negative values
+#'
+#' Turn values positive and then return to negative value.
+#' @keywords internal
+
 lsd_normalize_neg <- function(lsd) {
   l <- -field(lsd, "l")
   s <- -field(lsd, "s")

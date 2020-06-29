@@ -2,10 +2,10 @@
 
 # A) Convert bases --------------------------------------------------------
 
-#' Convert bases of `deb_lsd` and `deb_decimal` objects
+#' Convert bases of `deb_lsd` and `deb_decimal` vectors
 #'
 #' `deb_convert_bases()` is the only way to change the bases of the solidus
-#' and denarius units associated with objects of class `deb_lsd` or `deb_lsd`.
+#' and denarius units associated with `deb_lsd` or `deb_lsd`types.
 #'
 #' @param x An object of class `deb_lsd` or `deb_decimal`.
 #' @param to Numeric vector of length 2, representing the bases for the
@@ -75,7 +75,7 @@ deb_convert_bases.deb_decimal <- function(x, to) {
 
 # B) Convert units --------------------------------------------------------
 
-#' Convert the unit of `deb_decimal` objects
+#' Convert the unit of `deb_decimal` vectors
 #'
 #' @param x An object of class `deb_decimal`.
 #' @param to A character vector of length one indicating the unit to be

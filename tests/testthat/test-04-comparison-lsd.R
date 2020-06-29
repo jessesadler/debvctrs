@@ -12,7 +12,7 @@ dec_d <- deb_decimal(267, "d")
 dec_d2 <- deb_decimal(2118, "d")
 
 bases_error <- paste0("`bases` attributes must be equal to combine ",
-                      "<deb_lsd> or <deb_decimal> objects.")
+                      "<deb_lsd> or <deb_decimal> vectors.")
 
 # Equality ----------------------------------------------------------------
 

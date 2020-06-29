@@ -52,6 +52,12 @@ new_lsd <- function(l = double(),
 #'   conforms to the most widely used system of 1 pound = 20 shillings and
 #'   1 shilling = 12 pence.
 #' @export
+#' @examples
+#'
+#' deb_lsd(5, 3, 8)
+#' deb_lsd(l = c(10, 8, 5),
+#'         s = c(6, 13, 8),
+#'         d = c(8, 4, 10))
 
 # Helper steps
 # 1. Define arguments
@@ -114,7 +120,11 @@ deb_is_lsd <- function(x) inherits(x, "deb_lsd")
 
 # 6. Format method --------------------------------------------------------
 
+#' deb_lsd format method for object printing
+#'
+#' @keywords internal
 #' @export
+
 format.deb_lsd <- function(x, ...) {
   l <- round(field(x, "l"), 3) # only print 3 decimals
   s <- round(field(x, "s"), 3)
@@ -125,8 +135,11 @@ format.deb_lsd <- function(x, ...) {
   out
 }
 
-# Add footer with bases attribute data
+#' Print footer with bases
+#'
+#' @keywords internal
 #' @export
+
 obj_print_footer.deb_lsd <- function(x, ...) {
   s <- format(attr(x, "bases")[[1]])
   d <- format(attr(x, "bases")[[2]])
@@ -137,7 +150,11 @@ obj_print_footer.deb_lsd <- function(x, ...) {
 # 7. Abbreviated name type ------------------------------------------------
 # Used in column labels in tibble and str()
 
+#' Abbreviated name for tibble columns
+#'
+#' @keywords internal
 #' @export
+
 vec_ptype_abbr.deb_lsd <- function(x) {
   paste0("lsd[", attr(x, "bases")[[1]], "s:", attr(x, "bases")[[2]], "d]")
 }

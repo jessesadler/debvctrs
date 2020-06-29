@@ -6,6 +6,9 @@
 \usage{
 new_decimal(x = double(), unit = c("l", "s", "d"), bases = c(20L, 12L))
 }
+\value{
+A vector of class \code{deb_decimal}.
+}
 \description{
 Asserts that \code{x} is a \code{double()}, that \code{unit} is "l", "s", or "d", and
 that \code{bases} is an \code{integer()} of length 2. Creates the object through

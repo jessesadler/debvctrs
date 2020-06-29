@@ -1,8 +1,12 @@
 ## Utilities ##
 
-# ifelse function using vctrs to replace dplyr::if_else()
-# See https://vctrs.r-lib.org/articles/stability.html#ifelse
-# for code and explanation.
+#' vctrs ifelse function
+#'
+#' ifelse function using vctrs to replace dplyr::if_else()
+#' See https://vctrs.r-lib.org/articles/stability.html#ifelse
+#' for code and explanation.
+#'
+#' @keywords internal
 
 if_else <- function(test, yes, no) {
   vec_assert(test, logical())

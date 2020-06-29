@@ -1,7 +1,7 @@
 ## Test checks ##
 
 bases_error <- paste0("`bases` attributes must be equal to combine ",
-                      "<deb_lsd> or <deb_decimal> objects.")
+                      "<deb_lsd> or <deb_decimal> vectors.")
 
 # lsd_check ---------------------------------------------------------------
 

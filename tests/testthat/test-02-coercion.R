@@ -16,7 +16,7 @@ dec_d2 <- deb_decimal(780, unit = "d")
 dec_d3 <- deb_decimal(c(324, 600, 780), unit = "d")
 
 bases_error <- paste0("`bases` attributes must be equal to combine ",
-                      "<deb_lsd> or <deb_decimal> objects.")
+                      "<deb_lsd> or <deb_decimal> vectors.")
 
 # deb_lsd coercion --------------------------------------------------------
 

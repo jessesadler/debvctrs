@@ -22,3 +22,11 @@ conforms to the most widely used system of 1 pound = 20 shillings and
 \description{
 User-facing function to create deb_decimal vector.
 }
+\examples{
+
+deb_decimal(c(5.25, 3.825, 8.5))
+
+# Set the unit of the deb_decimal vector
+deb_decimal(c(105, 76.5, 170), unit = "s")
+deb_decimal(c(1260, 918, 240), unit = "d")
+}

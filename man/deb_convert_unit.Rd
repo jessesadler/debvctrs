@@ -2,7 +2,7 @@
 % Please edit documentation in R/helper-convert-attr.R
 \name{deb_convert_unit}
 \alias{deb_convert_unit}
-\title{Convert the unit of \code{deb_decimal} objects}
+\title{Convert the unit of \code{deb_decimal} vectors}
 \usage{
 deb_convert_unit(x, to = c("l", "s", "d"))
 }
@@ -14,5 +14,5 @@ converted to. Choice of \code{"l"} (pounds, the default), \code{"s"} (shillings)
 or \code{"d"} (pence).}
 }
 \description{
-Convert the unit of \code{deb_decimal} objects
+Convert the unit of \code{deb_decimal} vectors
 }

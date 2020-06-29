@@ -27,8 +27,13 @@ vec_arith.deb_decimal.default <- function(op, x, y) {
 
 # 2. Operators with deb_decimal and deb_decimal ---------------------------
 
-# Stand in for vec_arith_base() that converts unit attributes
-# if they are different.
+#' Arithmetic operations for deb_decimal
+#'
+#' Stand in for vec_arith_base() that converts unit attributes
+#' if they are different.
+#'
+#' @keywords internal
+
 dec_arithmetic <- function(op, x, y) {
   xy <- vec_cast_common(x, y) # ensures units are the same
   vec_arith_base(op, xy[[1]], xy[[2]])
@@ -136,6 +141,13 @@ vec_arith.deb_lsd.default <- function(op, x, y) {
 # a) Define functions
 
 # 1. Addition: deb_lsd() + deb_lsd()
+
+#' Addition for deb_lsd
+#'
+#' Enforce recycling rules, add by unit, and then normalize.
+#'
+#' @keywords internal
+
 lsd_plus <- function(x, y) {
   c(x, y) %<-% vec_recycle_common(x, y)
 
@@ -148,6 +160,13 @@ lsd_plus <- function(x, y) {
 }
 
 # 2. Subtraction: deb_lsd() - deb_lsd()
+
+#' Subtraction for deb_lsd
+#'
+#' Enforce recycling rules, subtract by unit, and then normalize.
+#'
+#' @keywords internal
+
 lsd_minus <- function(x, y) {
   c(x, y) %<-% vec_recycle_common(x, y)
 
@@ -182,6 +201,13 @@ vec_arith.deb_lsd.deb_lsd <- function(op, x, y) {
 # a) Define functions
 
 # 1. Multiplication: deb_lsd() * numeric()
+
+#' Multiplication for deb_lsd and numeric
+#'
+#' Enforce recycling rules, multiply by unit, and then normalize.
+#'
+#' @keywords internal
+
 lsd_multiply <- function(x, multiplier) {
   c(x, multiplier) %<-% vec_recycle_common(x, multiplier)
 
@@ -194,6 +220,13 @@ lsd_multiply <- function(x, multiplier) {
 }
 
 # 2. Division: lsd() / numeric()
+
+#' Division for deb_lsd and numeric
+#'
+#' Enforce recycling rules, divide by unit, and then normalize.
+#'
+#' @keywords internal
+
 lsd_dividend <- function(x, divisor) {
   c(x, divisor) %<-% vec_recycle_common(x, divisor)
 
@@ -205,7 +238,15 @@ lsd_dividend <- function(x, divisor) {
   deb_normalize(ret)
 }
 
-# 3. Division: numeric() / lsd()
+# 3. Division: numeric() / deb_lsd()
+
+#' Division for numeric over deb_lsd
+#'
+#' Enforce recycling rules, divide converted deb_decimal,
+#' and then return to deb_lsd.
+#'
+#' @keywords internal
+
 lsd_divisor <- function(dividend, x) {
   c(dividend, x) %<-% vec_recycle_common(dividend, x)
 
@@ -245,7 +286,12 @@ vec_arith.numeric.deb_lsd <- function(op, x, y) {
 
 # 4. Unary operators with deb_lsd -----------------------------------------
 
-# Define function
+#' Make deb_lsd negative
+#'
+#' Multiply each unit by -1
+#'
+#' @keywords internal
+
 lsd_negate <- function(x) {
   field(x, "l") <- field(x, "l") * -1
   field(x, "s") <- field(x, "s") * -1
@@ -253,6 +299,8 @@ lsd_negate <- function(x) {
 
   x
 }
+
+# Implement functions
 
 #' @rdname arithmetic
 #' @method vec_arith.deb_lsd MISSING
